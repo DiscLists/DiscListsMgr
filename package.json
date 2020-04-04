@@ -1,0 +1,30 @@
+{
+  "name": "disclistmgr",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiscLists/DiscListMgr.git"
+  },
+  "author": "DiscLists",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DiscLists/DiscListMgr/issues"
+  },
+  "homepage": "https://github.com/DiscLists/DiscListMgr#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1"
+  },
+  "dependencies": {
+    "discord.js": "^12.1.1"
+  }
+}
