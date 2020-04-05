@@ -1,9 +1,19 @@
+const path = require('path').resolve()
 const { Client, MessageEmbed } = require('discord.js')
 const bot = new Client()
+const { existsSync, writeFileSync, mkdirSync } = require('fs')
+
+if (!existsSync(path + '/data/')) mkdirSync(path + '/data/')
+if (!existsSync(path + '/data/users.json')) writeFileSync(path + '/data/users.json', '{}')
+
+/** @type {{}} */
+const users = require(path + '/data/users.json')
+setInterval(() => writeFileSync(path + '/data/users.json', JSON.stringify(users, '\n', 2)), 1000)
+
 bot.login(process.env.DLMToken)
 bot.on('ready', () => { bot.user.setActivity('DiscLists', { type: 'WATCHING' }) })
 bot.on('message', (msg) => {
-  if (!msg.author.bot && msg.channel.id === '695904480490946610' && msg.content === '?start') {
+  if (!msg.author.bot && msg.content === '?start') {
     msg.channel.send('<:_task:695918989813219348> **Wait for task is done...**').then((m) => { start(m, msg.member) })
   }
 })
@@ -16,15 +26,17 @@ function start (msg, member) {
   const { channel, guild } = msg
   const { user } = member
 
+  if (!users[user.id]) users[user.id] = []
+
   let embed = new MessageEmbed()
     .setColor(0x000000)
     .setTitle('**DiscLists.** - List Manager')
     .setThumbnail(guild.iconURL())
     .setDescription('Plz choose one of the menu below <:_stopwatch20:695945085950361621>')
     .addFields([
-      { name: '<:_create:695920237530578974>', value: 'Create', inline: true },
-      { name: '<:_update:695918214194003988>', value: 'Update', inline: true },
-      { name: '<:_delete:695917878154887229>', value: 'Delete', inline: true },
+      { name: '<:_create:695920237530578974>', value: users[user.id].length > 1 ? '~~Create~~' : 'Create', inline: true },
+      { name: '<:_update:695918214194003988>', value: users[user.id].length < 1 ? '~~Update~~' : 'Update', inline: true },
+      { name: '<:_delete:695917878154887229>', value: users[user.id].length < 1 ? '~~Delete~~' : 'Delete', inline: true },
       { name: '<:_infos:695923641291898952>', value: 'User Infos', inline: true },
       { name: '<:_credits:695925110179102751>', value: 'Bot Credits', inline: true }
     ])
@@ -50,6 +62,16 @@ function start (msg, member) {
 
       switch (validReactions.indexOf(c.first().emoji.id)) {
         case 0: {
+          if (users[user.id].length > 1) {
+            embed = new MessageEmbed()
+              .setColor(0xff0000)
+              .setTitle('**DiscLists.** - Create Channel Failed')
+              .setThumbnail(guild.iconURL())
+              .setDescription('Quota exceeded!\nYou cannot create channels anymore')
+
+            return msg.edit(embed)
+          }
+
           embed = new MessageEmbed()
             .setColor(0x000000)
             .setTitle('**DiscLists.** - Create Channel')
@@ -121,7 +143,7 @@ function start (msg, member) {
                       { id: guild.roles.everyone, deny: ['SEND_MESSAGES'] },
                       { id: user.id, allow: ['SEND_MESSAGES'] }
                     ] : [{ id: user.id, allow: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'] }]
-                  }).then((ch) => ch.send('Here we go! <@' + user.id + '>').then((m) => m.delete({ timeout: 20000 })))
+                  }).then((ch) => { users[user.id].push({ id: ch.id, name }); ch.send('Here we go! <@' + user.id + '>').then((m) => m.delete({ timeout: 20000 })) })
                 })
             })
 
@@ -129,6 +151,115 @@ function start (msg, member) {
           msg.react('695947468348719124')
           msg.react('695947856841801759')
           msg.react('695948961361559562')
+          break
+        }
+
+        case 1: {
+          if (users[user.id].length < 1) {
+            embed = new MessageEmbed()
+              .setColor(0xff0000)
+              .setTitle('**DiscLists.** - Update Channel Failed')
+              .setThumbnail(guild.iconURL())
+              .setDescription('You don\'t have any channels.')
+
+            return msg.edit(embed)
+          }
+
+          embed = new MessageEmbed()
+            .setColor(0x000000)
+            .setTitle('**DiscLists.** - Update Channel')
+            .setDescription('Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>')
+            .setThumbnail(guild.iconURL())
+
+          users[user.id].forEach((v, i) => {
+            i++
+            const target = guild.channels.resolve(v.id)
+            if (!target) embed.addField(i + '. ~~' + v.name + '~~', 'Deleted')
+            else embed.addField(i + '. ' + v.name, '<#' + v.id + '>')
+          })
+
+          msg.edit(embed)
+
+          channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+            .on('end', (c2) => {
+              if (!c2.first()) {
+                msg.react('695945085950361621')
+                msg.react('🇹')
+                msg.react('🇮')
+                msg.react('🇲')
+                msg.react('🇪')
+                msg.react('🇴')
+                msg.react('🇺')
+                msg.react('695953317636866128')
+                return
+              }
+
+              c2.first().delete()
+              const m = parseInt(c2.first().content)
+              if (isNaN(m)) {
+                embed = new MessageEmbed()
+                  .setColor(0xff0000)
+                  .setTitle('**DiscLists.** - Update Channel Failed')
+                  .setThumbnail(guild.iconURL())
+                  .setDescription(c2.first().content + ' is not a number')
+
+                return msg.edit(embed)
+              }
+
+              if (!users[user.id][m - 1]) {
+                embed = new MessageEmbed()
+                  .setColor(0xff0000)
+                  .setTitle('**DiscLists.** - Update Channel Failed')
+                  .setThumbnail(guild.iconURL())
+                  .setDescription('Channel No.' + c2.first().content + ' is not exist')
+
+                return msg.edit(embed)
+              }
+
+              if (!guild.channels.resolve(users[user.id][m - 1].id)) {
+                embed = new MessageEmbed()
+                  .setColor(0xff0000)
+                  .setTitle('**DiscLists.** - Update Channel Failed')
+                  .setThumbnail(guild.iconURL())
+                  .setDescription('Channel No.' + c2.first().content + ' is already deleted')
+
+                return msg.edit(embed)
+              }
+
+              embed = new MessageEmbed()
+                .setColor(0x000000)
+                .setTitle('**DiscLists.** - Update Channel')
+                .setDescription('Plz enter a new name for <#' + users[user.id][m - 1].id + '> <:_stopwatch20:695945085950361621>')
+                .setThumbnail(guild.iconURL())
+
+              msg.edit(embed)
+              channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+                .on('end', (c3) => {
+                  if (!c3.first()) {
+                    msg.react('695945085950361621')
+                    msg.react('🇹')
+                    msg.react('🇮')
+                    msg.react('🇲')
+                    msg.react('🇪')
+                    msg.react('🇴')
+                    msg.react('🇺')
+                    msg.react('695953317636866128')
+                    return
+                  }
+
+                  c3.first().delete()
+                  embed = new MessageEmbed()
+                    .setColor(0x000000)
+                    .setTitle('**DiscLists.** - Update Channel')
+                    .setDescription('Okay, I\'ll change name to <#' + users[user.id][m - 1].id + '> for you')
+                    .setThumbnail(guild.iconURL())
+
+                  users[user.id][m - 1].name = c3.first().content
+
+                  guild.channels.resolve(users[user.id][m - 1].id).setName(c3.first().content)
+                  msg.edit(embed)
+                })
+            })
           break
         }
       }
