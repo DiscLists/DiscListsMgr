@@ -54,9 +54,8 @@ function start (msg, member) {
         msg.react('🇮')
         msg.react('🇲')
         msg.react('🇪')
-        msg.react('🇴')
         msg.react('🇺')
-        msg.react('695953317636866128')
+        msg.react('🇵')
         return
       }
 
@@ -98,9 +97,8 @@ function start (msg, member) {
                 msg.react('🇮')
                 msg.react('🇲')
                 msg.react('🇪')
-                msg.react('🇴')
                 msg.react('🇺')
-                msg.react('695953317636866128')
+                msg.react('🇵')
                 return
               }
 
@@ -120,9 +118,8 @@ function start (msg, member) {
                     msg.react('🇮')
                     msg.react('🇲')
                     msg.react('🇪')
-                    msg.react('🇴')
                     msg.react('🇺')
-                    msg.react('695953317636866128')
+                    msg.react('🇵')
                     return
                   }
 
@@ -188,9 +185,8 @@ function start (msg, member) {
                 msg.react('🇮')
                 msg.react('🇲')
                 msg.react('🇪')
-                msg.react('🇴')
                 msg.react('🇺')
-                msg.react('695953317636866128')
+                msg.react('🇵')
                 return
               }
 
@@ -241,9 +237,8 @@ function start (msg, member) {
                     msg.react('🇮')
                     msg.react('🇲')
                     msg.react('🇪')
-                    msg.react('🇴')
                     msg.react('🇺')
-                    msg.react('695953317636866128')
+                    msg.react('🇵')
                     return
                   }
 
