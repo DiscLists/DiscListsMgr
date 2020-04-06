@@ -1,19 +1,15 @@
-const {Client} = require('discord.js')
+const { Client } = require('discord.js')
 
 class BotClient extends Client {
-  constructor() {
-    super()
-  }
-
-  start() {
+  start () {
     this.login(process.env.DLMToken)
   }
-  
-  registDataHandler(dh) {
+
+  registDataHandler (dh) {
     this.data = dh
   }
 
-  registEvent(type, fn, ...args) {
+  registEvent (type, fn, ...args) {
     this.on(type, (...args2) => fn(...args2, ...args))
   }
 }

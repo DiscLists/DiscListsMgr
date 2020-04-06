@@ -3,7 +3,7 @@ const path = require('path')
 const _path = path.resolve()
 
 class DataHandler {
-  constructor() {
+  constructor () {
     if (!existsSync(path.join(_path, 'data'))) mkdirSync(path.join(_path, 'data'))
     if (!existsSync(path.join(_path, 'data/users.json'))) writeFileSync(path.join(_path, 'data/users.json'), '{}')
 
