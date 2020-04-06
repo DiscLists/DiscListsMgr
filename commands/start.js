@@ -1,13 +1,13 @@
 const { MessageEmbed } = require('discord.js')
 
 module.exports = async (msg) => {
-  const { channel, guild } = msg
+  const { guild } = msg
   const { user } = msg.member
   const { users } = msg.client.data
 
   if (!users[user.id]) users[user.id] = []
 
-  let embed = new MessageEmbed()
+  const embed = new MessageEmbed()
     .setColor(0x000000)
     .setTitle('**DiscLists.** - List Manager')
     .setThumbnail(guild.iconURL())
@@ -32,8 +32,8 @@ module.exports = async (msg) => {
 
   m.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
-      if(timeUp(c, m)) return
-      switch(validReactions.indexOf(c.first().emoji.id)) {
+      if (timeUp(c, m)) return
+      switch (validReactions.indexOf(c.first().emoji.id)) {
         case 0:
           create(m, users, user)
           break
@@ -41,11 +41,15 @@ module.exports = async (msg) => {
         case 1:
           update(m, users, user)
           break
+
+        case 2:
+          del(m, users, user)
+          break
       }
     })
 }
 
-function timeUp(c, msg) {
+function timeUp (c, msg) {
   msg.reactions.removeAll()
   if (!c.first()) {
     msg.react('695945085950361621')
@@ -60,21 +64,20 @@ function timeUp(c, msg) {
 }
 
 // Choose channel type
-async function create(msg, users, user) {
+async function create (msg, users, user) {
+  const { guild, channel } = msg
+  const embed = new MessageEmbed().setThumbnail(guild.iconURL())
+
   if (users[user.id].length > 1) {
-    const embed = new MessageEmbed()
-      .setColor(0xff0000)
+    embed.setColor(0xff0000)
       .setTitle('**DiscLists.** - Create Channel Failed')
-      .setThumbnail(guild.iconURL())
       .setDescription('Quota exceeded!\nYou cannot create channels anymore')
 
     return msg.edit(embed)
   }
 
-  let embed = new MessageEmbed()
-    .setColor(0x000000)
+  embed.setColor(0x000000)
     .setTitle('**DiscLists.** - Create Channel')
-    .setThumbnail(msg.guild.iconURL())
     .setDescription('Plz choose one of the category below <:_stopwatch20:695945085950361621>')
     .addFields([
       { name: '<:_bots:695946394715815976>', value: 'Bots', inline: true },
@@ -90,44 +93,38 @@ async function create(msg, users, user) {
   msg.react('695947856841801759')
   msg.react('695948961361559562')
 
-
-  validReactions = ['695946394715815976', '695947468348719124', '695947856841801759', '695948961361559562']
+  const validReactions = ['695946394715815976', '695947468348719124', '695947856841801759', '695948961361559562']
   const names = ['bot', 'server', 'something', 'broadcasting']
   const categorys = ['695879447815127061', '695888549156749312', '695943330416033833', '695943427631874090']
   msg.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
-      if(timeUp(c, msg)) return
+      if (timeUp(c, msg)) return
 
-      // Receive channel name and create
-      embed = new MessageEmbed()
-        .setColor(0x000000)
-        .setTitle('**DiscLists.** - Create Channel about ' + names[validReactions.indexOf(c.first().emoji.id)])
-        .setThumbnail(msg.guild.iconURL())
+      // Receive channel name 채널 이름 확인
+      embed.setTitle('**DiscLists.** - Create Channel about ' + names[validReactions.indexOf(c.first().emoji.id)])
         .setDescription('**Please enter your channel name** <:_stopwatch20:695945085950361621>')
+      embed.fields = []
 
       msg.edit(embed)
 
-      msg.channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+      channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
         .on('end', async (c2) => {
-          if(timeUp(c2, msg)) return
+          if (timeUp(c2, msg)) return
 
-          // Start creating
+          // Start creating 채널 생성
           c2.first().delete()
           const name = c2.first().content
 
-          embed = new MessageEmbed()
-            .setColor(0x000000)
-            .setTitle('**DiscLists.** - Created Channel')
-            .setThumbnail(msg.guild.iconURL())
+          embed.setTitle('**DiscLists.** - Created Channel')
             .setDescription('I\'ll create channel "' + name + '" about ' + names[validReactions.indexOf(c.first().emoji.id)] + ' for you!')
 
           msg.edit(embed)
 
           console.log('[Channel Create] at "' + user.username + '" name: "name"')
-          const ch = await msg.guild.channels.create(name, {
+          const ch = await guild.channels.create(name, {
             parent: categorys[validReactions.indexOf(c.first().emoji.id)],
             permissionOverwrites: validReactions.indexOf(c.first().emoji.id) !== 2 ? [
-              { id: msg.guild.roles.everyone, deny: ['SEND_MESSAGES'] },
+              { id: guild.roles.everyone, deny: ['SEND_MESSAGES'] },
               { id: user.id, allow: ['SEND_MESSAGES'] }
             ] : [{ id: user.id, allow: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'] }]
           })
@@ -136,69 +133,171 @@ async function create(msg, users, user) {
           await m.delete({ timeout: 20000 })
         })
     })
+}
 
-  }
+function update (msg, users, user) {
+  const { guild, channel } = msg
+  const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
-function update(msg, users, user) {
+  // No channel 채널이 없음
   if (users[user.id].length < 1) {
-    const embed = new MessageEmbed()
-      .setColor(0xff0000)
+    embed.setColor(0xff0000)
       .setTitle('**DiscLists.** - Update Channel Failed')
-      .setThumbnail(guild.iconURL())
       .setDescription('You don\'t have any channels.')
 
     return msg.edit(embed)
   }
 
-  let embed = new MessageEmbed()
-    .setColor(0x000000)
+  // Choose channel to edit 수정할 채널 선택
+  embed.setColor(0x000000)
     .setTitle('**DiscLists.** - Update Channel')
     .setDescription('Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>')
-    .setThumbnail(msg.guild.iconURL())
 
   users[user.id].forEach((v, i) => {
     i++
-    const target = msg.guild.channels.resolve(v.id)
+    const target = guild.channels.resolve(v.id)
     if (!target) embed.addField(i + '. ~~' + v.name + '~~', 'Deleted')
     else embed.addField(i + '. ' + v.name, '<#' + v.id + '>')
   })
 
   msg.edit(embed)
 
-  msg.channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+  channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
-      if(timeUp(c, msg)) return
+      if (timeUp(c, msg)) return
+      embed.fields = []
 
       c.first().delete()
       const m = parseInt(c.first().content)
+
+      // If input is NaN 입력값이 숫자가 아닐 경우
       if (isNaN(m)) {
-        embed = new MessageEmbed()
-          .setColor(0xff0000)
+        embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Update Channel Failed')
-          .setThumbnail(msg.guild.iconURL())
           .setDescription(c.first().content + ' is not a number')
 
         return msg.edit(embed)
       }
 
+      // If the channel not exists 채널이 존재하지 않을 경우
       if (!users[user.id][m - 1]) {
-        embed = new MessageEmbed()
-          .setColor(0xff0000)
+        embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Update Channel Failed')
-          .setThumbnail(msg.guild.iconURL())
-          .setDescription('Channel No.' + c.first().content + ' is not exist')
+          .setDescription('Channel No.' + c.first().content + ' not exists')
 
         return msg.edit(embed)
       }
 
-      if (!msg.guild.channels.resolve(users[user.id][m - 1].id)) {
-        embed = new MessageEmbed()
-          .setColor(0xff0000)
+      // If the channel is manually deleted 채널이 수동으로 삭제된 경우
+      if (!guild.channels.resolve(users[user.id][m - 1].id)) {
+        embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Update Channel Failed')
-          .setThumbnail(msg.guild.iconURL())
           .setDescription('Channel No.' + c.first().content + ' is already deleted')
 
         return msg.edit(embed)
       }
+
+      // Enter new name for the channel 변경할 채널 이름 입력
+      embed.setTitle('**DiscLists.** - Update Channel')
+        .setDescription('Plz enter a new name for <#' + users[user.id][m - 1].id + '> <:_stopwatch20:695945085950361621>')
+
+      msg.edit(embed)
+
+      channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+        .on('end', (c2) => {
+          if (timeUp(c2, msg)) return
+
+          c2.first().delete()
+          embed.setTitle('**DiscLists.** - Update Channel')
+            .setDescription('Okay, I\'ll change name to <#' + users[user.id][m - 1].id + '> for you')
+
+          users[user.id][m - 1].name = c2.first().content
+
+          guild.channels.resolve(users[user.id][m - 1].id).setName(c2.first().content)
+          msg.edit(embed)
+        })
+    })
+}
+
+function del (msg, users, user) {
+  const { guild, channel } = msg
+  const embed = new MessageEmbed().setThumbnail(guild.iconURL())
+
+  // No channel 채널이 없음
+  if (users[user.id].length < 1) {
+    embed.setColor(0xff0000)
+      .setTitle('**DiscLists.** - Delete Channel Failed')
+      .setDescription('You don\'t have any channels.')
+
+    return msg.edit(embed)
+  }
+  // Choose channel to edit 수정할 채널 선택
+  embed.setColor(0x000000)
+    .setTitle('**DiscLists.** - Delete Channel')
+    .setDescription('Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>')
+
+  users[user.id].forEach((v, i) => {
+    i++
+    const target = guild.channels.resolve(v.id)
+    if (!target) embed.addField(i + '. ~~' + v.name + '~~', 'Deleted')
+    else embed.addField(i + '. ' + v.name, '<#' + v.id + '>')
+  })
+
+  msg.edit(embed)
+
+  channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
+    .on('end', (c) => {
+      if (timeUp(c, msg)) return
+      embed.fields = []
+
+      c.first().delete()
+      const m = parseInt(c.first().content)
+
+      // If input is NaN 입력값이 숫자가 아닐 경우
+      if (isNaN(m)) {
+        embed.setColor(0xff0000)
+          .setTitle('**DiscLists.** - Delete Channel Failed')
+          .setDescription(c.first().content + ' is not a number')
+
+        return msg.edit(embed)
+      }
+
+      // If the channel not exists 채널이 존재하지 않을 경우
+      if (!users[user.id][m - 1]) {
+        embed.setColor(0xff0000)
+          .setTitle('**DiscLists.** - Delete Channel Failed')
+          .setDescription('Channel No.' + c.first().content + ' not exists')
+
+        return msg.edit(embed)
+      }
+
+      embed.setTitle('**DiscLists.** - Delete Channel')
+        .setDescription('R U sure to want to **DELETE** <#' + users[user.id][m - 1].id + '>? <:_stopwatch20:695945085950361621>')
+
+      msg.edit(embed)
+      msg.react('✅')
+      msg.react('❌')
+
+      const validReactions = ['✅', '❌']
+      msg.createReactionCollector((r, u) => validReactions.includes(r.emoji.name) && u.id === user.id, { max: 1, time: 20000 })
+        .on('end', (c2) => {
+          if (timeUp(c2, msg)) return
+          switch (c2.first().emoji.name) {
+            case '✅': {
+              const ch = guild.channels.resolve(users[user.id][m - 1].id)
+              if (ch) ch.delete()
+              const old = users[user.id].splice(m - 1, 1)
+              embed.setTitle('**DiscLists.** - Delete Channel')
+                .setDescription('Deleted channel ' + old.name)
+
+              msg.edit(embed)
+              break
+            }
+
+            case '❌':
+              msg.delete()
+              break
+          }
+        })
     })
 }
