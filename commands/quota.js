@@ -1,9 +1,9 @@
-module.exports = (msg) => {
+module.exports = (msg, query) => {
   if (!msg.member.roles.cache.has('695879877890670622')) return
 
   const { users } = msg.client.data
   const user = msg.mentions.users.first()
-  const args = msg.content.split(' ').slice(1)
+  const args = query.args
   const cmd = args.shift()
 
   if (!user) return
