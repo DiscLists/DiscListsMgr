@@ -12,6 +12,5 @@ module.exports = async (msg) => {
     }
   }
 
-  if(msg.content.startsWith('?quota')) quotaCmd(msg)
-
+  if (msg.content.startsWith('?quota')) quotaCmd(msg)
 }

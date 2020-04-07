@@ -5,7 +5,7 @@ module.exports = async (msg) => {
   const { user } = msg.member
   const { users } = msg.client.data
 
-  if (!users[user.id]) users[user.id] = {quota: 2, channels: []}
+  if (!users[user.id]) users[user.id] = { quota: 2, channels: [] }
 
   const embed = new MessageEmbed()
     .setColor(0x000000)
@@ -122,7 +122,7 @@ async function create (msg, users, user) {
           c2.first().delete()
           const name = c2.first().content
 
-          if(name.length > 20) {
+          if (name.length > 20) {
             embed.setColor(0xff0000)
               .setTitle('**DiscLists.** - Create Channel Failed')
               .setDescription('Channel name cannot exceed 20 characters (including spaces)')
@@ -317,7 +317,7 @@ function del (msg, users, user) {
     })
 }
 
-function userinfo(msg, users, user) {
+function userinfo (msg, users, user) {
   const { guild } = msg
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
@@ -332,7 +332,7 @@ function userinfo(msg, users, user) {
   msg.edit(embed)
 }
 
-function credits(msg) {
+function credits (msg) {
   const { guild } = msg
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
