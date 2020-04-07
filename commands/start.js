@@ -17,7 +17,7 @@ module.exports = async (msg) => {
       { name: '<:_update:695918214194003988>', value: users[user.id].channels.length < 1 ? '~~Update~~' : 'Update', inline: true },
       { name: '<:_delete:695917878154887229>', value: users[user.id].channels.length < 1 ? '~~Delete~~' : 'Delete', inline: true },
       { name: '<:_infos:695923641291898952>', value: 'User Infos', inline: true },
-      { name: '<:_credits:695925110179102751>', value: 'Bot Credits', inline: true }
+      { name: '<:_credits:695925110179102751>', value: 'Credits', inline: true }
     ])
 
   const m = await msg.channel.send(embed)
@@ -270,7 +270,7 @@ function del (msg, users, user) {
             case '✅': {
               const ch = guild.channels.resolve(users[user.id].channels[m - 1].id)
               embed.setTitle('**DiscLists.** - Delete Channel')
-                .setDescription('Deleted channel ' + ch.name)
+                .setDescription('Deleted channel ' + user[user.id].channels[m - 1].name)
               users[user.id].channels.splice(m - 1, 1)
 
               if (ch) ch.delete()
@@ -307,10 +307,13 @@ function credits (msg) {
   const { guild } = msg
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
-    .setTitle('**DiscLists.** - Creators of the Bot')
+    .setTitle('**DiscLists.** - Credits')
     .addFields([
-      { name: 'Main Developer', value: guild.members.resolve('527746745073926145').user.tag },
-      { name: 'Developer', value: guild.members.resolve('393674169243402240').user.tag }
+      { name: 'CEO / Project Lead, Bot Developer', value: guild.members.resolve('550300988473344000').user.tag },
+      { name: 'CTO / Bot Developer', value: guild.members.resolve('527746745073926145').user.tag },
+      { name: 'CSO / Bot Developer', value: guild.members.resolve('393674169243402240').user.tag },
+      { name: 'Website Developer', value: guild.members.resolve('476377109032599572').user.tag },
+      { name: 'Translator', value: guild.members.resolve('347014076989440013').user.tag }
     ])
 
   msg.edit(embed)
@@ -341,7 +344,7 @@ function timeUp (c, msg) {
  * @param {import('discord.js').User} user
  */
 function checkTier (msg, user) {
-  let tier = 'Not Registed'
+  let tier = 'Not Registered'
   const r = msg.guild.members.resolve(user.id).roles
 
   const roles = ['696336801836695587', '696336655430320181', '696336655170142268', '696336249828540426', '696336248947605525', '696336248150687795', '695879877890670622']
