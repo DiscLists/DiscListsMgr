@@ -270,7 +270,7 @@ function del (msg, users, user) {
             case '✅': {
               const ch = guild.channels.resolve(users[user.id].channels[m - 1].id)
               embed.setTitle('**DiscLists.** - Delete Channel')
-                .setDescription('Deleted channel ' + user[user.id].channels[m - 1].name)
+                .setDescription('Deleted channel ' + users[user.id].channels[m - 1].name)
               users[user.id].channels.splice(m - 1, 1)
 
               if (ch) ch.delete()
