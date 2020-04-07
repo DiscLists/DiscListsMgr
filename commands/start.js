@@ -13,9 +13,9 @@ module.exports = async (msg) => {
     .setThumbnail(guild.iconURL())
     .setDescription('Requested by <@' + user.id + '>\nPlz choose one of the menu below <:_stopwatch20:695945085950361621>')
     .addFields([
-      { name: '<:_create:695920237530578974>', value: users[user.id].channels.length >= users[user.id].quota ? '~~Create~~ (Not Available)' : 'Create', inline: true },
-      { name: '<:_update:695918214194003988>', value: users[user.id].length < 1 ? '~~Update~~ (Not Available)' : 'Update', inline: true },
-      { name: '<:_delete:695917878154887229>', value: users[user.id].length < 1 ? '~~Delete~~ (Not Available)' : 'Delete', inline: true },
+      { name: '<:_create:695920237530578974>', value: users[user.id].channels.length >= users[user.id].quota ? '~~Create~~' : 'Create', inline: true },
+      { name: '<:_update:695918214194003988>', value: users[user.id].channels.length < 1 ? '~~Update~~' : 'Update', inline: true },
+      { name: '<:_delete:695917878154887229>', value: users[user.id].channels.length < 1 ? '~~Delete~~' : 'Delete', inline: true },
       { name: '<:_infos:695923641291898952>', value: 'User Infos', inline: true },
       { name: '<:_credits:695925110179102751>', value: 'Bot Credits', inline: true }
     ])
@@ -33,42 +33,11 @@ module.exports = async (msg) => {
   m.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
       if (timeUp(c, m)) return
-      switch (validReactions.indexOf(c.first().emoji.id)) {
-        case 0:
-          create(m, users, user)
-          break
-
-        case 1:
-          update(m, users, user)
-          break
-
-        case 2:
-          del(m, users, user)
-          break
-
-        case 3:
-          userinfo(m, users, user)
-          break
-
-        case 4:
-          credits(m)
-      }
+      [create, update, del, userinfo, credits][validReactions.indexOf(c.first().emoji.id)](m, users, user)
     })
 }
 
-function timeUp (c, msg) {
-  msg.reactions.removeAll()
-  if (!c.first()) {
-    msg.react('695945085950361621')
-    msg.react('🇹')
-    msg.react('🇮')
-    msg.react('🇲')
-    msg.react('🇪')
-    msg.react('🇺')
-    msg.react('🇵')
-    return true
-  }
-}
+// Pages ------------------
 
 // Choose channel type
 async function create (msg, users, user) {
@@ -155,7 +124,7 @@ function update (msg, users, user) {
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   // No channel 채널이 없음
-  if (users[user.id].length < 1) {
+  if (users[user.id].channels.length < 1) {
     embed.setColor(0xff0000)
       .setTitle('**DiscLists.** - Update Channel Failed')
       .setDescription('You don\'t have any channels.')
@@ -239,7 +208,7 @@ function del (msg, users, user) {
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   // No channel 채널이 없음
-  if (users[user.id].length < 1) {
+  if (users[user.id].channels.length < 1) {
     embed.setColor(0xff0000)
       .setTitle('**DiscLists.** - Delete Channel Failed')
       .setDescription('You don\'t have any channels.')
@@ -319,13 +288,14 @@ function del (msg, users, user) {
 
 function userinfo (msg, users, user) {
   const { guild } = msg
+
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
     .setTitle('**DiscLists.** - User Information')
-    .setDescription('Information of ' + user.tag)
+    .setDescription('Information of <@' + user.id + '>')
     .addFields([
-      { name: 'Username', value: user.tag, inline: true },
-      { name: 'Current Tier', value: 'WIP' },
+      { name: 'Username', value: '<@' + user.id + '>', inline: true },
+      { name: 'Current Tier', value: checkTier(msg, user) },
       { name: 'Channel Usage Count', value: users[user.id].channels.length + ' (out of ' + users[user.id].quota + ')', inline: true }
     ])
 
@@ -343,4 +313,40 @@ function credits (msg) {
     ])
 
   msg.edit(embed)
+}
+
+// SubFunctions ------------------
+
+/**
+ * @param {import('discord.js').Collection} c
+ * @param {import('discord.js').Message} msg
+ */
+function timeUp (c, msg) {
+  msg.reactions.removeAll()
+  if (!c.first()) {
+    msg.react('695945085950361621')
+    msg.react('🇹')
+    msg.react('🇮')
+    msg.react('🇲')
+    msg.react('🇪')
+    msg.react('🇺')
+    msg.react('🇵')
+    return true
+  }
+}
+
+/**
+ * @param {import('discord.js').Message} msg
+ * @param {import('discord.js').User} user
+ */
+function checkTier (msg, user) {
+  let tier = 'Not Registed'
+  const r = msg.guild.members.resolve(user.id).roles
+
+  const roles = ['696336801836695587', '696336655430320181', '696336655170142268', '696336249828540426', '696336248947605525', '696336248150687795', '695879877890670622']
+  roles.forEach((v) => {
+    if (r.cache.has(v)) tier = '<@&' + v + '>'
+  })
+
+  return tier
 }
