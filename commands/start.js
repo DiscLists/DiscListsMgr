@@ -247,7 +247,7 @@ function del (msg, users, user) {
       }
 
       // If the channel not exists 채널이 존재하지 않을 경우
-      if (!users[user.id][m - 1]) {
+      if (!users[user.id].channels[m - 1]) {
         embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Delete Channel Failed')
           .setDescription('Channel No.' + c.first().content + ' not exists')
@@ -256,7 +256,7 @@ function del (msg, users, user) {
       }
 
       embed.setTitle('**DiscLists.** - Delete Channel')
-        .setDescription('R U sure to want to **DELETE** <#' + users[user.id][m - 1].id + '>? <:_stopwatch20:695945085950361621>')
+        .setDescription('R U sure to want to **DELETE** <#' + users[user.id].channels[m - 1].id + '>? <:_stopwatch20:695945085950361621>')
 
       msg.edit(embed)
       msg.react('✅')
@@ -268,11 +268,12 @@ function del (msg, users, user) {
           if (timeUp(c2, msg)) return
           switch (c2.first().emoji.name) {
             case '✅': {
-              const ch = guild.channels.resolve(users[user.id][m - 1].id)
-              if (ch) ch.delete()
-              const old = users[user.id].splice(m - 1, 1)
+              const ch = guild.channels.resolve(users[user.id].channels[m - 1].id)
               embed.setTitle('**DiscLists.** - Delete Channel')
-                .setDescription('Deleted channel ' + old.name)
+                .setDescription('Deleted channel ' + ch.name)
+              users[user.id].channels.splice(m - 1, 1)
+
+              if (ch) ch.delete()
 
               msg.edit(embed)
               break
