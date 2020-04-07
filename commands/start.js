@@ -5,15 +5,15 @@ module.exports = async (msg) => {
   const { user } = msg.member
   const { users } = msg.client.data
 
-  if (!users[user.id]) users[user.id] = []
+  if (!users[user.id]) users[user.id] = {quota: 2, channels: []}
 
   const embed = new MessageEmbed()
     .setColor(0x000000)
     .setTitle('**DiscLists.** - List Manager')
     .setThumbnail(guild.iconURL())
-    .setDescription('Plz choose one of the menu below <:_stopwatch20:695945085950361621>')
+    .setDescription('Requested by <@' + user.id + '>\nPlz choose one of the menu below <:_stopwatch20:695945085950361621>')
     .addFields([
-      { name: '<:_create:695920237530578974>', value: users[user.id].length > 1 ? '~~Create~~ (Not Available)' : 'Create', inline: true },
+      { name: '<:_create:695920237530578974>', value: users[user.id].channels.length >= users[user.id].quota ? '~~Create~~ (Not Available)' : 'Create', inline: true },
       { name: '<:_update:695918214194003988>', value: users[user.id].length < 1 ? '~~Update~~ (Not Available)' : 'Update', inline: true },
       { name: '<:_delete:695917878154887229>', value: users[user.id].length < 1 ? '~~Delete~~ (Not Available)' : 'Delete', inline: true },
       { name: '<:_infos:695923641291898952>', value: 'User Infos', inline: true },
@@ -45,6 +45,13 @@ module.exports = async (msg) => {
         case 2:
           del(m, users, user)
           break
+
+        case 3:
+          userinfo(m, users, user)
+          break
+
+        case 4:
+          credits(m)
       }
     })
 }
@@ -68,10 +75,10 @@ async function create (msg, users, user) {
   const { guild, channel } = msg
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
-  if (users[user.id].length > 1) {
+  if (users[user.id].channels.length >= users[user.id].quota) {
     embed.setColor(0xff0000)
       .setTitle('**DiscLists.** - Create Channel Failed')
-      .setDescription('Quota exceeded!\nYou cannot create channels anymore')
+      .setDescription('Quota exceeded!\nYou have reached the **' + users[user.id].quota + '** channels limit.')
 
     return msg.edit(embed)
   }
@@ -80,10 +87,10 @@ async function create (msg, users, user) {
     .setTitle('**DiscLists.** - Create Channel')
     .setDescription('Plz choose one of the category below <:_stopwatch20:695945085950361621>')
     .addFields([
-      { name: '<:_bots:695946394715815976>', value: 'Bots', inline: true },
+      { name: '<:_bots:695946394715815976>', value: 'Bot', inline: true },
       { name: '<:_server:695947468348719124>', value: 'Server', inline: true },
-      { name: '<:_general:695947856841801759>', value: 'General', inline: true },
-      { name: '<:_broadcasting:695948961361559562>', value: 'Broadcasting', inline: true }
+      { name: '<:_general:695947856841801759>', value: 'Chatting', inline: true },
+      { name: '<:_broadcasting:695948961361559562>', value: 'Streamer', inline: true }
     ])
 
   msg.edit(embed)
@@ -115,12 +122,20 @@ async function create (msg, users, user) {
           c2.first().delete()
           const name = c2.first().content
 
+          if(name.length > 20) {
+            embed.setColor(0xff0000)
+              .setTitle('**DiscLists.** - Create Channel Failed')
+              .setDescription('Channel name cannot exceed 20 characters (including spaces)')
+
+            return msg.edit(embed)
+          }
+
           embed.setTitle('**DiscLists.** - Created Channel')
             .setDescription('I\'ll create channel "' + name + '" about ' + names[validReactions.indexOf(c.first().emoji.id)] + ' for you!')
 
           msg.edit(embed)
 
-          console.log('[Channel Create] at "' + user.username + '" name: "name"')
+          console.log('[Channel Create] at "' + user.username + '" name: "' + name + '"')
           const ch = await guild.channels.create(name, {
             parent: categorys[validReactions.indexOf(c.first().emoji.id)],
             permissionOverwrites: validReactions.indexOf(c.first().emoji.id) !== 2 ? [
@@ -128,7 +143,7 @@ async function create (msg, users, user) {
               { id: user.id, allow: ['SEND_MESSAGES'] }
             ] : [{ id: user.id, allow: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'] }]
           })
-          users[user.id].push({ id: ch.id, name })
+          users[user.id].channels.push({ id: ch.id, name })
           const m = await ch.send('Here we go! <@' + user.id + '>')
           await m.delete({ timeout: 20000 })
         })
@@ -153,7 +168,7 @@ function update (msg, users, user) {
     .setTitle('**DiscLists.** - Update Channel')
     .setDescription('Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>')
 
-  users[user.id].forEach((v, i) => {
+  users[user.id].channels.forEach((v, i) => {
     i++
     const target = guild.channels.resolve(v.id)
     if (!target) embed.addField(i + '. ~~' + v.name + '~~', 'Deleted')
@@ -180,7 +195,7 @@ function update (msg, users, user) {
       }
 
       // If the channel not exists 채널이 존재하지 않을 경우
-      if (!users[user.id][m - 1]) {
+      if (!users[user.id].channels[m - 1]) {
         embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Update Channel Failed')
           .setDescription('Channel No.' + c.first().content + ' not exists')
@@ -189,7 +204,7 @@ function update (msg, users, user) {
       }
 
       // If the channel is manually deleted 채널이 수동으로 삭제된 경우
-      if (!guild.channels.resolve(users[user.id][m - 1].id)) {
+      if (!guild.channels.resolve(users[user.id].channels[m - 1].id)) {
         embed.setColor(0xff0000)
           .setTitle('**DiscLists.** - Update Channel Failed')
           .setDescription('Channel No.' + c.first().content + ' is already deleted')
@@ -199,7 +214,7 @@ function update (msg, users, user) {
 
       // Enter new name for the channel 변경할 채널 이름 입력
       embed.setTitle('**DiscLists.** - Update Channel')
-        .setDescription('Plz enter a new name for <#' + users[user.id][m - 1].id + '> <:_stopwatch20:695945085950361621>')
+        .setDescription('Plz enter a new name for <#' + users[user.id].channels[m - 1].id + '> <:_stopwatch20:695945085950361621>')
 
       msg.edit(embed)
 
@@ -209,11 +224,11 @@ function update (msg, users, user) {
 
           c2.first().delete()
           embed.setTitle('**DiscLists.** - Update Channel')
-            .setDescription('Okay, I\'ll change name to <#' + users[user.id][m - 1].id + '> for you')
+            .setDescription('Okay, I\'ll change name to <#' + users[user.id].channels[m - 1].id + '> for you')
 
-          users[user.id][m - 1].name = c2.first().content
+          users[user.id].channels[m - 1].name = c2.first().content
 
-          guild.channels.resolve(users[user.id][m - 1].id).setName(c2.first().content)
+          guild.channels.resolve(users[user.id].channels[m - 1].id).setName(c2.first().content)
           msg.edit(embed)
         })
     })
@@ -236,7 +251,7 @@ function del (msg, users, user) {
     .setTitle('**DiscLists.** - Delete Channel')
     .setDescription('Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>')
 
-  users[user.id].forEach((v, i) => {
+  users[user.id].channels.forEach((v, i) => {
     i++
     const target = guild.channels.resolve(v.id)
     if (!target) embed.addField(i + '. ~~' + v.name + '~~', 'Deleted')
@@ -300,4 +315,32 @@ function del (msg, users, user) {
           }
         })
     })
+}
+
+function userinfo(msg, users, user) {
+  const { guild } = msg
+  const embed = new MessageEmbed().setThumbnail(guild.iconURL())
+    .setColor(0x000000)
+    .setTitle('**DiscLists.** - User Information')
+    .setDescription('Information of ' + user.tag)
+    .addFields([
+      { name: 'Username', value: user.tag, inline: true },
+      { name: 'Current Tier', value: 'WIP' },
+      { name: 'Channel Usage Count', value: users[user.id].channels.length + ' (out of ' + users[user.id].quota + ')', inline: true }
+    ])
+
+  msg.edit(embed)
+}
+
+function credits(msg) {
+  const { guild } = msg
+  const embed = new MessageEmbed().setThumbnail(guild.iconURL())
+    .setColor(0x000000)
+    .setTitle('**DiscLists.** - Creators of the Bot')
+    .addFields([
+      { name: 'Main Developer', value: guild.members.resolve('527746745073926145').user.tag },
+      { name: 'Developer', value: guild.members.resolve('393674169243402240').user.tag }
+    ])
+
+  msg.edit(embed)
 }
