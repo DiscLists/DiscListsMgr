@@ -1,7 +1,7 @@
 class MsgQuery {
   constructor (msg) {
     this.raw = msg.content
-    this.content = msg.content.split('?')[1]
+    this.content = msg.content.split('???')[1]
     if (!this.content || this.content.length < 1) return
 
     this.arr = this.content.split(' ')
