@@ -15,7 +15,7 @@ module.exports = async (msg) => {
   if(!msg.member.roles.cache.has('695879877890670622')) return // Admin
 
   const query = new MsgQuery(msg)
-  const { user } = msg.member
+  let { user } = msg.member
   const { users } = msg.client.data
   const { channel, guild } = msg
 
@@ -42,6 +42,7 @@ module.exports = async (msg) => {
         break
 
       case 'userinfo':
+        if(msg.mentions.users.size > 0) user = msg.mentions.users.first()
         userinfoCmd(null, guild, channel, users, user)
         break
 

@@ -7,7 +7,7 @@ module.exports = (msg, guild, channel, users, user) => {
     .setTitle('**DiscLists.** - User Information')
     .setDescription('Information of <@' + user.id + '>')
     .addFields([
-      { name: 'Username', value: '<@' + user.id + '>', inline: true },
+      { name: 'Username', value: '<@' + user.id + '> (' + user.tag + ')', inline: true },
       { name: 'Current Tier', value: checkTier(guild, user) },
       { name: 'Channel Usage Count', value: users[user.id].channels.length + ' (out of ' + users[user.id].quota + ')', inline: true }
     ])
