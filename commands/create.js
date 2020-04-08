@@ -13,7 +13,7 @@ module.exports = async (msg, query) => {
       .setTitle('**DiscLists.** - Create Channel Failed')
       .setDescription('Quota exceeded!\nYou have reached the **' + users[user.id].quota + '** channels limit.')
 
-    return channel.send(embed)
+    return await channel.send(embed)
   }
 
   embed.setColor(0x000000)
@@ -29,20 +29,15 @@ module.exports = async (msg, query) => {
   // From here msg changes from user-msg to bot-msg
   msg = await channel.send(embed)
 
-  msg.react('695946394715815976')
-  msg.react('695947468348719124')
-  msg.react('695947856841801759')
-  msg.react('695948961361559562')
-
   const validReactions = ['695946394715815976', '695947468348719124', '695947856841801759', '695948961361559562']
-  const names = ['bot', 'server', 'something', 'broadcasting']
+  const names = ['Bot', 'Server', 'Chatting', 'Streamer']
   const categorys = ['695879447815127061', '695888549156749312', '695943330416033833', '695943427631874090']
   msg.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
       if (timeUp(c, msg)) return
 
       // Receive channel name 채널 이름 확인
-      embed.setTitle('**DiscLists.** - Create Channel about ' + names[validReactions.indexOf(c.first().emoji.id)])
+      embed.setTitle('**DiscLists.** - Create Channel about *' + names[validReactions.indexOf(c.first().emoji.id)] + '*')
         .setDescription('**Please enter your channel name** <:_stopwatch20:695945085950361621>')
       embed.fields = []
 
@@ -82,4 +77,9 @@ module.exports = async (msg, query) => {
           await m.delete({ timeout: 20000 })
         })
     })
+
+  await msg.react('695946394715815976')
+  await msg.react('695947468348719124')
+  await msg.react('695947856841801759')
+  await msg.react('695948961361559562')
 }
