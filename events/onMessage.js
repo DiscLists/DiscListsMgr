@@ -11,8 +11,8 @@ const creditsCmd = require('../commands/credits')
 
 module.exports = async (msg) => {
   if (msg.author.bot || !msg.guild) return
-  if (!msg.content.startsWith('???')) return
-  if (!msg.member.roles.cache.has('695879877890670622')) return // Admin
+  if (!msg.content.startsWith(msg.client.settings.prefix)) return
+  if (this.client.settings.devMode && !msg.member.roles.cache.has(msg.client.settings.adminRole)) return // Admin
 
   const query = new MsgQuery(msg)
   const cmds = new Map([

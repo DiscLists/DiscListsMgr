@@ -1,0 +1,6 @@
+{
+  "token": "YOUR_BOT_TOKEN",
+  "prefix": "",
+  "devMode": false,
+  "adminRole": "STAFF ROLE ID"
+}

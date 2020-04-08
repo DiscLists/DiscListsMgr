@@ -1,8 +1,18 @@
 const { Client } = require('discord.js')
 
 class BotClient extends Client {
+  constructor() {
+    super()
+
+    const settings = require('../settings.json')
+    if(!settings.prefix) settings.prefix = '?'
+    if(!settings.devMode) settings.devMode = false
+    if(!settings.adminRole) settings.adminRole = ''
+    this.settings = settings
+  }
+
   start () {
-    this.login(process.env.DLMToken)
+    this.login(process.env.DLMToken || this.settings.token)
   }
 
   registDataHandler (dh) {
