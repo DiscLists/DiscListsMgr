@@ -1,7 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const { timeUp } = require('../classes/subfunc')
 
-module.exports = async (msg, guild, channel, users, user) => {
+module.exports = async (msg, query) => {
+  const { guild, channel } = msg
+  const user = msg.author
+  const users = msg.client.data.users
+
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   if (users[user.id].channels.length >= users[user.id].quota) {
@@ -9,8 +13,7 @@ module.exports = async (msg, guild, channel, users, user) => {
       .setTitle('**DiscLists.** - Create Channel Failed')
       .setDescription('Quota exceeded!\nYou have reached the **' + users[user.id].quota + '** channels limit.')
 
-    if(!msg) return channel.send(embed)
-    else return msg.edit(embed)
+    return channel.send(embed)
   }
 
   embed.setColor(0x000000)
@@ -23,8 +26,8 @@ module.exports = async (msg, guild, channel, users, user) => {
       { name: '<:_broadcasting:695948961361559562>', value: 'Streamer', inline: true }
     ])
 
-  if(!msg) msg = await channel.send(embed)
-  else msg.edit(embed)
+  // From here msg changes from user-msg to bot-msg
+  msg = await channel.send(embed)
 
   msg.react('695946394715815976')
   msg.react('695947468348719124')

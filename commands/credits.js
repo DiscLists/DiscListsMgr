@@ -1,6 +1,8 @@
 const { MessageEmbed } = require('discord.js')
 
-module.exports = (msg, guild, channel, users, user) => {
+module.exports = (msg, query) => {
+  const { guild, channel } = msg
+
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
     .setTitle('**DiscLists.** - Credits')
@@ -12,6 +14,5 @@ module.exports = (msg, guild, channel, users, user) => {
       { name: 'Translator', value: guild.members.resolve('347014076989440013').user.tag }
     ])
 
-  if(!msg) channel.send(embed)
-  else msg.edit(embed)
+  channel.send(embed)
 }

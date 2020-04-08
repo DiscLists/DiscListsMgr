@@ -1,7 +1,11 @@
 const { MessageEmbed } = require('discord.js')
 const { timeUp } = require('../classes/subfunc')
 
-module.exports = async (msg, guild, channel, users, user) => {
+module.exports = async (msg, query) => {
+  const { guild, channel } = msg
+  const user = msg.author
+  const users = msg.client.data.users
+
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   // No channel 채널이 없음
@@ -10,8 +14,7 @@ module.exports = async (msg, guild, channel, users, user) => {
       .setTitle('**DiscLists.** - Delete Channel Failed')
       .setDescription('You don\'t have any channels.')
 
-    if(!msg) return channel.send(embed)
-    else return msg.edit(embed)
+    return channel.send(embed)
   }
   // Choose channel to delete 삭제할 채널 선택
   embed.setColor(0x000000)
@@ -25,8 +28,8 @@ module.exports = async (msg, guild, channel, users, user) => {
     else embed.addField(i + '. ' + v.name, '<#' + v.id + '>')
   })
 
-  if(!msg) msg = await channel.send(embed)
-  else msg.edit(embed)
+  // From here msg changes from user-msg to bot-msg
+  msg = await channel.send(embed)
 
   channel.createMessageCollector((m) => m.author.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {

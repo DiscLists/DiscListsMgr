@@ -1,7 +1,11 @@
 const { MessageEmbed } = require('discord.js')
-const { timeUp, checkTier } = require('../classes/subfunc')
+const { checkTier } = require('../classes/subfunc')
 
-module.exports = (msg, guild, channel, users, user) => {
+module.exports = (msg, query) => {
+  const { guild, channel } = msg
+  const user = msg.mentions.users.size > 0 ? msg.mentions.users.first() : msg.author
+  const users = msg.client.data.users
+
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)
     .setTitle('**DiscLists.** - User Information')
@@ -12,6 +16,5 @@ module.exports = (msg, guild, channel, users, user) => {
       { name: 'Channel Usage Count', value: users[user.id].channels.length + ' (out of ' + users[user.id].quota + ')', inline: true }
     ])
 
-  if(!msg) channel.send(embed)
-  else msg.edit(embed)
+  channel.send(embed)
 }

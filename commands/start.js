@@ -6,9 +6,9 @@ const deleteCmd = require('./delete')
 const userinfoCmd = require('./userinfo')
 const creditsCmd = require('./credits')
 
-const { timeUp } = require('../classes/subfunc') 
+const { timeUp } = require('../classes/subfunc')
 
-module.exports = async (msg) => {
+module.exports = async (msg, query) => {
   const { guild } = msg
   const { user } = msg.member
   const { users } = msg.client.data
@@ -41,7 +41,8 @@ module.exports = async (msg) => {
   m.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
       if (timeUp(c, m)) return
-      [createCmd, updateCmd, deleteCmd, userinfoCmd, creditsCmd][validReactions.indexOf(c.first().emoji.id)](m, guild, msg.channel, users, user)
+      m.delete()
+      // eslint-disable-next-line no-unexpected-multiline, no-sequences
+        [createCmd, updateCmd, deleteCmd, userinfoCmd, creditsCmd][validReactions.indexOf(c.first().emoji.id)](msg, query)
     })
 }
-
