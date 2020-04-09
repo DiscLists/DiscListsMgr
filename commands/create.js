@@ -9,10 +9,10 @@ module.exports = async (msg, query, locale) => {
 
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
-  if (users[user.id].channels.length >= users[user.id].quota) {
+  if (users[user.id].quota < 1) {
     embed.setColor(0xff0000)
       .setTitle(t('create.failed:**DiscLists.** - Create Channel Failed', locale))
-      .setDescription(t('create.quotaExceeded:Quota exceeded!\nYou have reached the **%1$s** channels limit.', locale, users[user.id].quota))
+      .setDescription(t('create.quotaEmpty:You used all of the tickets.', locale))
 
     return await channel.send(embed)
   }
@@ -73,6 +73,7 @@ module.exports = async (msg, query, locale) => {
               { id: user.id, allow: ['SEND_MESSAGES'] }
             ] : [{ id: user.id, allow: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'] }]
           })
+          users[user.id].quota -= 1
           users[user.id].channels.push({ id: ch.id, name })
           const m = await ch.send(t('create.herewego:Here we go! %1$s', locale, '<@' + user.id + '>'))
           await m.delete({ timeout: 20000 })

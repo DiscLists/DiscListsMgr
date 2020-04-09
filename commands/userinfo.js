@@ -16,7 +16,7 @@ module.exports = (msg, query, locale) => {
     .addFields([
       { name: t('userinfo.username:Username', locale), value: '<@' + user.id + '> (' + user.tag + ')', inline: true },
       { name: t('userinfo.tier:Current Tier', locale), value: checkTier(guild, user) },
-      { name: t('userinfo.usageCount.name:Channel Usage Count', locale), value: t('userinfo.usageCount.value:%1$s (out of %2$s)', locale, users[user.id].channels.length, users[user.id].quota), inline: true }
+      { name: t('userinfo.usageCount.name:Channel and Ticket Information', locale), value: t('userinfo.usageCount.value:%1$s channels created (%2$s tickets left)', locale, users[user.id].channels.length, users[user.id].quota), inline: true }
     ])
 
   channel.send(embed)

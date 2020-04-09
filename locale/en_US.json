@@ -26,7 +26,8 @@
     "herewego": "Here we go! %1$s",
     "failed": "**DiscLists.** - Create Channel Failed",
     "quotaExceeded": "Quota exceeded!\nYou have reached the **%1$s** channels limit.\nBecome a premium member and enlarge the limit.",
-    "nameLimit": "Channel name cannot exceed 20 characters (including spaces)"
+    "nameLimit": "Channel name cannot exceed 20 characters (including spaces)",
+    "quotaEmpty": "You used all of the tickets."
   },
   "update": {
     "title": "**DiscLists.** - Update Channel",
@@ -58,8 +59,8 @@
     "username": "Username",
     "tier": "Current Tier",
     "usageCount": {
-      "name": "Channel Usage Count",
-      "value": "%1$s (out of %2$s)"
+      "name": "Channel and Ticket Information",
+      "value": "%1$s channels created (%2$s tickets left)"
     },
     "notRegistered": "That user is not registered."
   },
