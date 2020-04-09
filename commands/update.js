@@ -79,12 +79,12 @@ module.exports = async (msg, query, locale) => {
           if (timeUp(c2, msg)) return
 
           const name = c2.first().content
-          if (name.length > 20) {
+          if (name.length > 20) {
             embed.setColor(0xff0000)
               .setTitle(t('update.failed:**DiscLists.** - Update Channel Failed', locale))
-              .setDescription(t('update.nameLimit:Channel name cannot exceed 20 characters (including spaces)', locale))
+              .setDescription(t('update.nameLimit:Channel name cannot exceed 20 characters (including spaces)', locale))
 
-            return msg.edit(embed)
+            return msg.edit(embed)
           }
 
           c2.first().delete()

@@ -5,7 +5,7 @@
  * @param {import('discord.js').Message} msg
  */
 exports.timeUp = (c, msg) => {
-  if(msg.deleted) return
+  if (msg.deleted) return
   msg.reactions.removeAll()
   if (!c.first()) {
     msg.react('695945085950361621')

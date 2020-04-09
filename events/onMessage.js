@@ -18,21 +18,21 @@ module.exports = async (msg) => {
 
   const query = new MsgQuery(msg)
   const cmds = new Map([
-    ['start', {cmd: startCmd, locale: 'en_US'}],
-    ['quota', {cmd: quotaCmd, locale: 'en_US'}],
-    ['create', {cmd: createCmd, locale: 'en_US'}],
-    ['update', {cmd: updateCmd, locale: 'en_US'}],
-    ['delete', {cmd: deleteCmd, locale: 'en_US'}],
-    ['userinfo', {cmd: userinfoCmd, locale: 'en_US'}],
-    ['credits', {cmd: creditsCmd, locale: 'en_US'}],
+    ['start', { cmd: startCmd, locale: 'en_US' }],
+    ['quota', { cmd: quotaCmd, locale: 'en_US' }],
+    ['create', { cmd: createCmd, locale: 'en_US' }],
+    ['update', { cmd: updateCmd, locale: 'en_US' }],
+    ['delete', { cmd: deleteCmd, locale: 'en_US' }],
+    ['userinfo', { cmd: userinfoCmd, locale: 'en_US' }],
+    ['credits', { cmd: creditsCmd, locale: 'en_US' }],
 
-    ['시작', {cmd: startCmd, locale: 'ko_KR'}],
-    ['사용량', {cmd: quotaCmd, locale: 'ko_KR'}],
-    ['생성', {cmd: createCmd, locale: 'ko_KR'}],
-    ['수정', {cmd: updateCmd, locale: 'ko_KR'}],
-    ['삭제', {cmd: deleteCmd, locale: 'ko_KR'}],
-    ['유저정보', {cmd: userinfoCmd, locale: 'ko_KR'}],
-    ['제작자', {cmd: creditsCmd, locale: 'ko_KR'}]
+    ['시작', { cmd: startCmd, locale: 'ko_KR' }],
+    ['사용량', { cmd: quotaCmd, locale: 'ko_KR' }],
+    ['생성', { cmd: createCmd, locale: 'ko_KR' }],
+    ['수정', { cmd: updateCmd, locale: 'ko_KR' }],
+    ['삭제', { cmd: deleteCmd, locale: 'ko_KR' }],
+    ['유저정보', { cmd: userinfoCmd, locale: 'ko_KR' }],
+    ['제작자', { cmd: creditsCmd, locale: 'ko_KR' }]
   ])
 
   try {

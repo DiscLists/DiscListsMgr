@@ -1,7 +1,7 @@
 const i18n = require('i18n')
 
 class LocaleHandler {
-  constructor() {
+  constructor () {
     i18n.configure({
       defaultLocale: 'en_US',
       directory: './locale',
@@ -13,7 +13,7 @@ class LocaleHandler {
     })
 
     this.i18n = i18n
-    this.t = (phrase, locale, ...args) => i18n.__({ phrase, locale }, ...args)
+    this.t = (phrase, locale, ...args) => i18n.__({ phrase, locale }, ...args)
   }
 }
 

@@ -7,7 +7,7 @@ module.exports = (msg, query, locale) => {
   const { users } = msg.client.data
   const { t } = msg.client.locale
 
-  if(!users[user.id]) return msg.channel.send(t('userinfo.notRegistered:That user is not registered.', locale))
+  if (!users[user.id]) return msg.channel.send(t('userinfo.notRegistered:That user is not registered.', locale))
 
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
     .setColor(0x000000)

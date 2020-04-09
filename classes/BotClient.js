@@ -1,13 +1,13 @@
 const { Client } = require('discord.js')
 
 class BotClient extends Client {
-  constructor() {
+  constructor () {
     super()
 
     const settings = require('../settings.json')
-    if(!settings.prefix) settings.prefix = '?'
-    if(!settings.devMode) settings.devMode = false
-    if(!settings.adminRole) settings.adminRole = ''
+    if (!settings.prefix) settings.prefix = '?'
+    if (!settings.devMode) settings.devMode = false
+    if (!settings.adminRole) settings.adminRole = ''
     this.settings = settings
   }
 
