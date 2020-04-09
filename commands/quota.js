@@ -1,5 +1,5 @@
 module.exports = (msg, query, locale) => {
-  if (!msg.member.roles.cache.has('695879877890670622')) return
+  if (!msg.member.roles.cache.has(msg.client.settings.adminRole)) return
 
   const { users } = msg.client.data
   const user = msg.mentions.users.first()
