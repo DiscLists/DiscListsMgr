@@ -74,7 +74,7 @@
   },
   "quota": {
     "notRegistered": "Not registered",
-    "set": "Set channel limit for %1$s (Total %2$s)",
-    "edit": "Modified channel limit for %1$s (%2$s, Total %3$s)"
+    "set": "Set ticket count for %1$s (Total %2$s)",
+    "edit": "Modified ticket count for %1$s (%2$s, Total %3$s)"
   }
 }

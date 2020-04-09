@@ -18,7 +18,7 @@ module.exports = (msg, query, locale) => {
       if (isNaN(d)) return
       users[user.id].quota += d
       console.log('[Quota] Edited ' + user.tag + (d >= 0 ? ' + ' : ' - ') + d + ' = ' + users[user.id].quota)
-      msg.channel.send(t('quota.edit:Modified channel limit for %1$s (%2$s, Total %3$s)', locale, '<@' + user.id + '>', d, users[user.id].quota))
+      msg.channel.send(t('quota.edit:Modified ticket count for %1$s (%2$s, Total %3$s)', locale, '<@' + user.id + '>', d, users[user.id].quota))
       break
     }
 
@@ -28,7 +28,7 @@ module.exports = (msg, query, locale) => {
       if (isNaN(d)) return
       users[user.id].quota = d
       console.log('[Quota] Set ' + user.tag + ' = ' + users[user.id].quota)
-      msg.channel.send(t('quota.set:Set channel limit for %1$s (Total %2$s)', locale, '<@' + user.id + '>', users[user.id].quota))
+      msg.channel.send(t('quota.set:Set ticket count for %1$s (Total %2$s)', locale, '<@' + user.id + '>', users[user.id].quota))
     }
   }
 }
