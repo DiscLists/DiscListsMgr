@@ -21,11 +21,11 @@
     },
     "created": {
       "title": "**DiscLists.** - Created Channel",
-      "desc": "I'll create channel \"%1$s\" about %2$s for you!"
+      "desc": "I created channel \"%1$s\" about %2$s for you!"
     },
     "herewego": "Here we go! %1$s",
     "failed": "**DiscLists.** - Create Channel Failed",
-    "quotaExceeded": "Quota exceeded!\nYou have reached the **%1$s** channels limit.",
+    "quotaExceeded": "Quota exceeded!\nYou have reached the **%1$s** channels limit.\nBecome a premium member and enlarge the limit.",
     "nameLimit": "Channel name cannot exceed 20 characters (including spaces)",
     "enterNewName": "Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>"
   },
@@ -67,7 +67,8 @@
     "PMH": "CTO / Bot Developer",
     "comjun04": "CSO / Bot Developer",
     "gangjun": "Website Developer",
-    "dissolve": "Translator"
+    "dissolve": "Translator",
+    "name": "**DiscLists.** - Credits"
   },
   "quota": {
     "notRegistered": "Not registered",
