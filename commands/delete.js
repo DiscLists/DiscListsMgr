@@ -20,7 +20,7 @@ module.exports = async (msg, query, locale) => {
   // Choose channel to delete 삭제할 채널 선택
   embed.setColor(0x000000)
     .setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-    .setDescription('delete.deac:Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>', locale)
+    .setDescription(t('delete.desc:Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>', locale))
 
   users[user.id].channels.forEach((v, i) => {
     i++

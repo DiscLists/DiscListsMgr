@@ -12,6 +12,7 @@ module.exports = (msg, query, locale) => {
   if (!users[user.id]) return msg.channel.send(t('quota.notRegistered:Not registered', locale))
 
   switch (cmd) {
+    case '수정':
     case 'edit': {
       const d = parseInt(args[args.length - 1])
       if (isNaN(d)) return
@@ -21,6 +22,7 @@ module.exports = (msg, query, locale) => {
       break
     }
 
+    case '설정':
     case 'set': {
       const d = parseInt(args[args.length - 1])
       if (isNaN(d)) return

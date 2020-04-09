@@ -26,8 +26,7 @@
     "herewego": "Here we go! %1$s",
     "failed": "**DiscLists.** - Create Channel Failed",
     "quotaExceeded": "Quota exceeded!\nYou have reached the **%1$s** channels limit.\nBecome a premium member and enlarge the limit.",
-    "nameLimit": "Channel name cannot exceed 20 characters (including spaces)",
-    "enterNewName": "Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>"
+    "nameLimit": "Channel name cannot exceed 20 characters (including spaces)"
   },
   "update": {
     "title": "**DiscLists.** - Update Channel",
@@ -39,7 +38,8 @@
     "notNumber": "%1$s is not a number",
     "noChannel": "You don't have any channels.",
     "deleted": "Deleted",
-    "alreadyDeleted": "Channel No.%1$s is already deleted"
+    "alreadyDeleted": "Channel No.%1$s is already deleted",
+    "enterNewName": "Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>"
   },
   "delete": {
     "title": "**DiscLists.** - Delete Channel",
@@ -49,7 +49,8 @@
     "notNumber": "%1$s is not a number",
     "notExist": "Channel No.%1$s not exist",
     "noChannel": "You don't have any channels.",
-    "deleted": "Deleted"
+    "deleted": "Deleted",
+    "desc": "Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>"
   },
   "userinfo": {
     "title": "**DiscLists.** - User Information",

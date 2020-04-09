@@ -69,8 +69,8 @@ module.exports = async (msg, query, locale) => {
       }
 
       // Enter new name for the channel 변경할 채널 이름 입력
-      embed.setTitle(t('create.title:**DiscLists.** - Update Channel', locale))
-        .setDescription(t('create.enterNewName:Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>', locale, '<#' + users[user.id].channels[m - 1].id + '>'))
+      embed.setTitle(t('update.title:**DiscLists.** - Update Channel', locale))
+        .setDescription(t('update.enterNewName:Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>', locale, '<#' + users[user.id].channels[m - 1].id + '>'))
 
       msg.edit(embed)
 

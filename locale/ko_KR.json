@@ -3,62 +3,63 @@
     "title": "**DiscLists.** - 메인 매뉴",
     "create": "채널 생성",
     "update": "채널 이름 업데이트",
-    "desc": "%1$s 의 요청\nPlz <:_stopwatch20:695945085950361621>초 안에 메뉴를 선택해 주세요\n(모든 5개의 메뉴가 보여질때까지 기다리세요)",
+    "desc": "%1$s가 요청함\nPlz <:_stopwatch20:695945085950361621>초 안에 메뉴를 선택해 주세요\n(모든 5개의 메뉴가 보여질때까지 기다리세요)",
     "delete": "채널 삭제",
     "userinfo": "사용자 정보",
-    "credits": "크레딧"
+    "credits": "제작자"
   },
   "create": {
     "title": "**DiscLists.** - 채널 생성",
-    "desc": "<:_stopwatch20:695945085950361621>초 안에 한가지 카테고리를 선택해 주세요",
+    "desc": "<:_stopwatch20:695945085950361621>초 안에 한 가지 카테고리를 선택해 주세요",
     "bot": "봇",
     "server": "서버",
     "chatting": "채팅",
     "streamer": "스트리머",
     "channelNameInput": {
       "title": "**DiscLists.** - *%1$s*에 관한 채널 생성",
-      "desc": "<:_stopwatch20:695945085950361621> **안에 채널명을 입력해주세요**"
+      "desc": "<:_stopwatch20:695945085950361621>초 안에 채널명을 입력해주세요"
     },
     "created": {
       "title": "**DiscLists.** - 채널 생성 완료",
-      "desc": "%2$s에 관한 채널 \"%1$s\" 를 만들었어요! 작업 완료."
+      "desc": "%2$s에 관한 채널 \"%1$s\" 를 만들었어요!"
     },
-    "herewego": "작업 시도 %1$s",
-    "failed": "**DiscLists.** - Create Channel Failed",
-    "quotaExceeded": "채널 개수제한 초과!\n **%1$s**개의 채널 개수 한도에 다다르셨습니다.\n프리미엄 회원이 되어 제한을 완화하세요.",
-    "nameLimit": "채널 이름은 20글자를 초과할수 없습니다 (공백 포함)",
-    "enterNewName": "%1$s의 이름을 다시 입력해주세요 <:_stopwatch20:695945085950361621>"
+    "herewego": "여기 있어요! %1$s",
+    "failed": "**DiscLists.** - 채널 생성 실패",
+    "quotaExceeded": "채널 개수 제한 초과!\n **%1$s**개의 채널 개수 한도에 다다르셨습니다.\n프리미엄 회원이 되어 제한을 완화하세요.",
+    "nameLimit": "채널 이름은 20글자를 초과할 수 없습니다 (공백 포함)"
   },
   "update": {
-    "title": "**DiscLists.** - 채널 이름 업데이트",
+    "title": "**DiscLists.** - 채널 이름 수정",
     "desc": "<:_stopwatch20:695945085950361621>초 안에 채널 번호를 입력해주세요",
-    "failed": "**DiscLists.** - 채널 이름 업데이트 실패",
-    "notExist": "Channel No.%1$s 는 존재하지 않습니다",
-    "change": "%1$s 으로 이름을 변경하였습니다.",
+    "failed": "**DiscLists.** - 채널 이름 수정 실패",
+    "notExist": "%1$s번 채널은(는) 존재하지 않습니다",
+    "change": "채널 이름을 %1$s(으)로 변경하였습니다.",
     "nameLimit": "채널 이름은 20글자를 초과할수 없습니다 (공백 포함)",
-    "notNumber": "%1$s 는 번호가 아닙니다.",
+    "notNumber": "%1$s은(는) 숫자가 아닙니다.",
     "noChannel": "채널을 소유하고 있지 않습니다.",
     "deleted": "삭제됨",
-    "alreadyDeleted": "채널 No.%1$s 는 이미 지워진 채널입니다."
+    "alreadyDeleted": "%1$s번 채널은 이미 삭제되었습니다.",
+    "enterNewName": "%1$s의 이름을 다시 입력해주세요 <:_stopwatch20:695945085950361621>"
   },
   "delete": {
     "title": "**DiscLists.** - 채널 삭제",
-    "confirm": "%1$s를 진짜 지우시겠습니까? 복구되지 않습니다. <:_stopwatch20:695945085950361621>초 안에 결정.",
+    "confirm": "%1$s를 진짜 삭제하시겠습니까? **이 작업은 되돌릴 수 없습니다.** <:_stopwatch20:695945085950361621>",
     "channelDeleted": "%1$s 채널을 삭제하였습니다.",
     "failed": "**DiscLists.** - 채널 삭제 실패",
-    "notNumber": "%1$s 는 번호가 아닙니다.",
-    "notExist": "채널 No.%1$s 는 존재하지 않습니다.",
+    "notNumber": "%1$s은(는) 숫자가 아닙니다.",
+    "notExist": "%1$s번 채널은 존재하지 않습니다.",
     "noChannel": "채널을 소유하고 있지 않습니다.",
-    "deleted": "삭제됨"
+    "deleted": "삭제됨",
+    "desc": "아래에서 삭제할 채널 번호를 입력해주세요 <:_stopwatch20:695945085950361621>"
   },
   "userinfo": {
-    "title": "**DiscLists.** - 사용자정보",
-    "desc": "%1$s의 사용자정보",
+    "title": "**DiscLists.** - 사용자 정보",
+    "desc": "%1$s의 사용자 정보",
     "username": "사용자명",
     "tier": "현재 티어",
     "usageCount": {
       "name": "채널 현황",
-      "value": "%1$s개 (%2$s 개 사용 가능 채널 중)"
+      "value": "%1$s개 (%2$s개 사용 가능)"
     },
     "notRegistered": "등록되지 않은 사용자입니다."
   },
@@ -68,11 +69,11 @@
     "comjun04": "CSO / 봇 개발자",
     "gangjun": "웹 개발자",
     "dissolve": "번역가",
-    "name": "**DiscLists.** - 크레딧"
+    "name": "**DiscLists.** - 제작자"
   },
   "quota": {
     "notRegistered": "등록되지 않은 사용자입니다.",
-    "set": "%1$s의 채널 제한 을 %2$s 로 바꿨습니다.",
-    "edit": "%1$s의 채널 제한 을 %2$s 만큼 바꿨습니다. (총 %3$s)"
+    "set": "%1$s의 채널 제한을 %2$s개로 설정하였습니다.",
+    "edit": "%1$s의 채널 제한을 %2$s만큼 수정하였습니다. (총 %3$s)"
   }
 }
