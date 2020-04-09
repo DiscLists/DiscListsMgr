@@ -38,7 +38,7 @@ module.exports = async (msg, query, locale) => {
       if (timeUp(c, msg)) return
 
       // Receive channel name 채널 이름 확인
-      embed.setTitle(t('create.channelNameInput.title:**DiscLists.** - Create Channel about *%1$s*', locale, names[validReactions.indexOf(c.first().emoji.id)]))
+      embed.setTitle(t('create.channelNameInput.title:**DiscLists.** - Create Channel about *%1$s*', locale, t(names[validReactions.indexOf(c.first().emoji.id)], locale)))
         .setDescription(t('create.channelNameInput.desc:**Please enter your channel name** <:_stopwatch20:695945085950361621>', locale))
       embed.fields = []
 
