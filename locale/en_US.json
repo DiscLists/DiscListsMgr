@@ -40,7 +40,22 @@
     "noChannel": "You don't have any channels.",
     "deleted": "Deleted",
     "alreadyDeleted": "Channel No.%1$s is already deleted",
-    "enterNewName": "Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>"
+    "enterNewName": "Plz enter a new name for %1$s <:_stopwatch20:695945085950361621>",
+    "enterOption": "Plz choose what to change for %1$s <:_stopwatch20:695945085950361621>",
+    "option": {
+      "1": {
+        "title": "1. Channel name",
+        "desc": "Change the name of the channel"
+      },
+      "2": {
+        "title": "2. Channel topic",
+        "desc": "Change channel topic (description next to the channel name)"
+      }
+    },
+    "enterNewTopic": "Please enter new topic to change (maximum 100 characters, including spaces) <:_stopwatch20:695945085950361621>",
+    "changeTopic": "Okay, I'll change topic to '%1$s'",
+    "topicLimit": "Channel topic cannot exceed 100 characters (including spaces)",
+    "invalidOption": "Invalid option provided."
   },
   "delete": {
     "title": "**DiscLists.** - Delete Channel",
