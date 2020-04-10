@@ -1,6 +1,7 @@
 module.exports = (msg, query, locale) => {
   if (!msg.member.roles.cache.has(msg.client.settings.adminRole)) return
 
+  const { guild } = msg
   const { users } = msg.client.data
   const user = msg.mentions.users.first()
   const args = query.args
