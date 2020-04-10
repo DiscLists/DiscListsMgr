@@ -10,7 +10,7 @@ module.exports = async (msg, query, locale) => {
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   // No channel 채널이 없음
-  if (users[user.id].channels.length < 1) {
+  if (users[guild.id][user.id].channels.length < 1) {
     embed.setColor(0xff0000)
       .setTitle(t('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
       .setDescription(t('delete.noChannel:You don\'t have any channels.', locale))
@@ -22,7 +22,7 @@ module.exports = async (msg, query, locale) => {
     .setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
     .setDescription(t('delete.desc:Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>', locale))
 
-  users[user.id].channels.forEach((v, i) => {
+  users[guild.id][user.id].channels.forEach((v, i) => {
     i++
     const target = guild.channels.resolve(v.id)
     if (!target) embed.addField(i + '. ~~' + v.name + '~~', t('delete.deleted:Deleted', locale))
@@ -50,7 +50,7 @@ module.exports = async (msg, query, locale) => {
       }
 
       // If the channel not exists 채널이 존재하지 않을 경우
-      if (!users[user.id].channels[m - 1]) {
+      if (!users[guild.id][user.id].channels[m - 1]) {
         embed.setColor(0xff0000)
           .setTitle(t('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
           .setDescription(t('delete.notExist:Channel No.%1$s not exist', locale, c.first().content))
@@ -59,7 +59,7 @@ module.exports = async (msg, query, locale) => {
       }
 
       embed.setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-        .setDescription(t('delete.confirm:R U sure to want to **DELETE** %1$s? <:_stopwatch20:695945085950361621>', locale, '<#' + users[user.id].channels[m - 1].id + '>'))
+        .setDescription(t('delete.confirm:R U sure to want to **DELETE** %1$s? <:_stopwatch20:695945085950361621>', locale, '<#' + users[guild.id][user.id].channels[m - 1].id + '>'))
 
       msg.edit(embed)
       msg.react('✅')
@@ -71,10 +71,10 @@ module.exports = async (msg, query, locale) => {
           if (timeUp(c2, msg)) return
           switch (c2.first().emoji.name) {
             case '✅': {
-              const ch = guild.channels.resolve(users[user.id].channels[m - 1].id)
+              const ch = guild.channels.resolve(users[guild.id][user.id].channels[m - 1].id)
               embed.setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-                .setDescription(t('delete.channelDeleted:Deleted channel %1$s', locale, users[user.id].channels[m - 1].name))
-              users[user.id].channels.splice(m - 1, 1)
+                .setDescription(t('delete.channelDeleted:Deleted channel %1$s', locale, users[guild.id][user.id].channels[m - 1].name))
+              users[guild.id][user.id].channels.splice(m - 1, 1)
 
               if (ch) ch.delete()
 

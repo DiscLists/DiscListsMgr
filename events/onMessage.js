@@ -14,7 +14,8 @@ module.exports = async (msg) => {
   if (!msg.content.startsWith(msg.client.settings.prefix)) return
   if (msg.client.settings.devMode && !msg.member.roles.cache.has(msg.client.settings.adminRole)) return // Admin
 
-  if (!msg.client.data.users[msg.author.id]) msg.client.data.users[msg.author.id] = { quota: 2, channels: [] }
+  if (!msg.client.data.users[msg.guild.id]) msg.client.data.users[msg.guild.id] = {}
+  if (!msg.client.data.users[msg.guild.id][msg.author.id]) msg.client.data.users[msg.guild.id][msg.author.id] = { quota: 2, channels: [] }
 
   const query = new MsgQuery(msg)
   const cmds = new Map([

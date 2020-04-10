@@ -9,16 +9,16 @@ module.exports = (msg, query, locale) => {
   const { t } = msg.client.locale
 
   if (!user) return
-  if (!users[user.id]) return msg.channel.send(t('quota.notRegistered:Not registered', locale))
+  if (!users[guild.id][user.id]) return msg.channel.send(t('quota.notRegistered:Not registered', locale))
 
   switch (cmd) {
     case '수정':
     case 'edit': {
       const d = parseInt(args[args.length - 1])
       if (isNaN(d)) return
-      users[user.id].quota += d
-      console.log('[Quota] Edited ' + user.tag + (d >= 0 ? ' + ' : ' - ') + d + ' = ' + users[user.id].quota)
-      msg.channel.send(t('quota.edit:Modified ticket count for %1$s (%2$s, Total %3$s)', locale, '<@' + user.id + '>', d, users[user.id].quota))
+      users[guild.id][user.id].quota += d
+      console.log('[Quota] Edited ' + user.tag + (d >= 0 ? ' + ' : ' - ') + d + ' = ' + users[guild.id][user.id].quota)
+      msg.channel.send(t('quota.edit:Modified ticket count for %1$s (%2$s, Total %3$s)', locale, '<@' + user.id + '>', d, users[guild.id][user.id].quota))
       break
     }
 
@@ -26,9 +26,9 @@ module.exports = (msg, query, locale) => {
     case 'set': {
       const d = parseInt(args[args.length - 1])
       if (isNaN(d)) return
-      users[user.id].quota = d
-      console.log('[Quota] Set ' + user.tag + ' = ' + users[user.id].quota)
-      msg.channel.send(t('quota.set:Set ticket count for %1$s (Total %2$s)', locale, '<@' + user.id + '>', users[user.id].quota))
+      users[guild.id][user.id].quota = d
+      console.log('[Quota] Set ' + user.tag + ' = ' + users[guild.id][user.id].quota)
+      msg.channel.send(t('quota.set:Set ticket count for %1$s (Total %2$s)', locale, '<@' + user.id + '>', users[guild.id][user.id].quota))
     }
   }
 }

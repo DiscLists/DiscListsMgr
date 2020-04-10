@@ -9,7 +9,7 @@ module.exports = async (msg, query, locale) => {
 
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
-  if (users[user.id].quota < 1) {
+  if (users[guild.id][user.id].quota < 1) {
     embed.setColor(0xff0000)
       .setTitle(t('create.failed:**DiscLists.** - Create Channel Failed', locale))
       .setDescription(t('create.quotaEmpty:You used all of the tickets.', locale))
@@ -33,6 +33,7 @@ module.exports = async (msg, query, locale) => {
   const validReactions = ['695946394715815976', '695947468348719124', '695947856841801759', '695948961361559562']
   const names = ['create.bot:Bot', 'create.server:Server', 'create.chatting:Chatting', 'create.streamer:Streamer']
   const categorys = ['695879447815127061', '695888549156749312', '695943330416033833', '695943427631874090']
+  const categorys2 = ['697806639620685876', '697806639620685880', '697806639620685882', '697806639897641052']
   msg.createReactionCollector((r, u) => validReactions.includes(r.emoji.id) && u.id === user.id, { max: 1, time: 20000 })
     .on('end', (c) => {
       if (timeUp(c, msg)) return
@@ -67,14 +68,14 @@ module.exports = async (msg, query, locale) => {
 
           console.log('[Channel Create] at "' + user.username + '" name: "' + name + '"')
           const ch = await guild.channels.create(name, {
-            parent: categorys[validReactions.indexOf(c.first().emoji.id)],
+            parent: guild.id === '695877575255261306' ? categorys[validReactions.indexOf(c.first().emoji.id)] : categorys2[validReactions.indexOf(c.first().emoji.id)],
             permissionOverwrites: validReactions.indexOf(c.first().emoji.id) !== 2 ? [
               { id: guild.roles.everyone, deny: ['SEND_MESSAGES'] },
               { id: user.id, allow: ['SEND_MESSAGES'] }
             ] : [{ id: user.id, allow: ['MANAGE_CHANNELS', 'MANAGE_MESSAGES'] }]
           })
-          users[user.id].quota -= 1
-          users[user.id].channels.push({ id: ch.id, name })
+          users[guild.id][user.id].quota -= 1
+          users[guild.id][user.id].channels.push({ id: ch.id, name })
           const m = await ch.send(t('create.herewego:Here we go! %1$s', locale, '<@' + user.id + '>'))
           await m.delete({ timeout: 20000 })
         })
