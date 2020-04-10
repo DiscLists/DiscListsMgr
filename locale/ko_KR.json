@@ -29,9 +29,9 @@
     "nameLimit": "채널 이름은 20글자를 초과할 수 없어요! (공백 포함)"
   },
   "update": {
-    "title": "**DiscLists.** - 채널 이름 수정",
+    "title": "**DiscLists.** - 채널 수정",
     "desc": "<:_stopwatch20:695945085950361621>초 안에 채널 번호를 입력해주세요",
-    "failed": "**DiscLists.** - 채널 이름 수정 실패",
+    "failed": "**DiscLists.** - 채널 수정 실패",
     "notExist": "%1$s번 채널은 존재하지 않아요",
     "change": "채널 이름을 %1$s(으)로 바꿨어요.",
     "nameLimit": "채널 이름은 20글자를 초과할 수 없어요! (공백 포함)",
@@ -39,7 +39,22 @@
     "noChannel": "채널을 소유하고 있지 않아요",
     "deleted": "삭제됨",
     "alreadyDeleted": "%1$s번 채널은 이미 삭제되어있어요",
-    "enterNewName": "%1$s의 이름을 다시 입력해주세요 <:_stopwatch20:695945085950361621>"
+    "enterNewName": "%1$s의 이름을 다시 입력해주세요 <:_stopwatch20:695945085950361621>",
+    "enterOption": "%1$s 채널에서 무엇을 수정할 것인지 선택해주세요 <:_stopwatch20:695945085950361621>",
+    "option": {
+      "1": {
+        "title": "1. 채널 제목",
+        "desc": "채널의 제목을 변경해요."
+      },
+      "2": {
+        "title": "2. 채널 주제",
+        "desc": "채널의 주제(제목 옆에 있는 것)를 변경해요."
+      }
+    },
+    "enterNewTopic": "새로운 채널 주제를 공백 포함 100자 이내로 입력해주세요. <:_stopwatch20:695945085950361621>",
+    "changeTopic": "채널 주제가 '%1$s'로 변경되었어요!",
+    "topicLimit": "채널 주제는 공백을 포함하여 100자를 초과할 수 없어요!",
+    "invalidOption": "잘못된 선택이에요!"
   },
   "delete": {
     "title": "**DiscLists.** - 채널 삭제",
