@@ -10,7 +10,7 @@ module.exports = async (msg, query, locale) => {
   const embed = new MsgEmbed(guild)
 
   if (users[guild.id][user.id].quota < 1) {
-    embed.setError
+    embed.setError()
       .setTitle(t('create.failed', locale))
       .setDescription(t('create.quotaEmpty', locale))
 
