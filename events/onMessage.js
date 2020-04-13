@@ -9,6 +9,8 @@ const deleteCmd = require('../commands/delete')
 const userinfoCmd = require('../commands/userinfo')
 const creditsCmd = require('../commands/credits')
 
+const covidCmd = require('../extras/covid')
+
 module.exports = async (msg) => {
   if (msg.author.bot || !msg.guild) return
   if (!msg.content.startsWith(msg.client.settings.prefix)) return
@@ -27,13 +29,17 @@ module.exports = async (msg) => {
     ['userinfo', { cmd: userinfoCmd, locale: 'en_US' }],
     ['credits', { cmd: creditsCmd, locale: 'en_US' }],
 
+    ['covid', { cmd: covidCmd, locale: 'en_US' }],
+
     ['시작', { cmd: startCmd, locale: 'ko_KR' }],
     ['사용량', { cmd: quotaCmd, locale: 'ko_KR' }],
     ['생성', { cmd: createCmd, locale: 'ko_KR' }],
     ['수정', { cmd: updateCmd, locale: 'ko_KR' }],
     ['삭제', { cmd: deleteCmd, locale: 'ko_KR' }],
     ['유저정보', { cmd: userinfoCmd, locale: 'ko_KR' }],
-    ['제작자', { cmd: creditsCmd, locale: 'ko_KR' }]
+    ['제작자', { cmd: creditsCmd, locale: 'ko_KR' }],
+
+    ['코로나', { cmd: covidCmd, locale: 'ko_KR' }]
   ])
 
   try {
