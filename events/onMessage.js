@@ -11,8 +11,13 @@ const creditsCmd = require('../commands/credits')
 
 const covidCmd = require('../extras/covid')
 
+const swap = require('../extras/swap')
+
 module.exports = async (msg) => {
   if (msg.author.bot || !msg.guild) return
+
+  swap(msg)
+
   if (!msg.content.startsWith(msg.client.settings.prefix)) return
   if (msg.client.settings.devMode && !msg.member.roles.cache.has(msg.client.settings.adminRole)) return // Admin
 
