@@ -41,7 +41,7 @@ module.exports = (channel) => {
           channel.send(embed)
         }
       })
-  }, 1000)
+  }, 60000)
 }
 
 function validURL (str) {
