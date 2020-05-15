@@ -7,7 +7,8 @@ class BotClient extends Client {
     const settings = require('../settings.json')
     if (!settings.prefix) settings.prefix = '?'
     if (!settings.devMode) settings.devMode = false
-    if (!settings.adminRole) settings.adminRole = ''
+    if (!settings.adminRole) settings.adminRole = []
+    if (!settings.news) settings.news = { enable: false, channel: "" }
     this.settings = settings
   }
 

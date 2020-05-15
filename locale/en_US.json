@@ -26,7 +26,8 @@
     "herewego": "Here we go! %1$s",
     "failed": "**DiscLists.** - Create Channel Failed",
     "nameLimit": "Channel name cannot exceed 20 characters (including spaces)",
-    "quotaEmpty": "You used all of the tickets. Become a premium member and get more."
+    "quotaEmpty": "You used all of the tickets. Become a premium member and get more.",
+    "personal": "Personal"
   },
   "update": {
     "title": "**DiscLists.** - Update Channel",

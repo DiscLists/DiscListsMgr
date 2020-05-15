@@ -1,5 +1,11 @@
 module.exports = (msg, query, locale) => {
-  if (!msg.member.roles.cache.has(msg.client.settings.adminRole)) return
+  if(msg.client.settings.devMode) {
+    let isAdmin = false
+    msg.member.roles.cache.forEach((role) => {
+      if(!isAdmin && msg.client.settings.adminRole.includes(role.id)) isAdmin = true
+    })
+    if (!isAdmin) return // Admin
+  }
 
   const { guild } = msg
   const { users } = msg.client.data

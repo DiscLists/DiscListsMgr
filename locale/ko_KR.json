@@ -13,7 +13,7 @@
     "desc": "<:_stopwatch20:695945085950361621>초 안에 한 가지 카테고리를 선택해 주세요",
     "bot": "봇",
     "server": "서버",
-    "chatting": "채팅",
+    "personal": "개인",
     "streamer": "스트리머",
     "channelNameInput": {
       "title": "**DiscLists.** - *%1$s*에 관한 채널 생성",
@@ -26,7 +26,8 @@
     "herewego": "여기 있어요! %1$s",
     "failed": "**DiscLists.** - 채널 생성 실패",
     "quotaEmpty": "티켓을 모두 사용했어요.\n프리미엄 회원이 되면 티켓을 더 얻을 수 있어요",
-    "nameLimit": "채널 이름은 20글자를 초과할 수 없어요! (공백 포함)"
+    "nameLimit": "채널 이름은 20글자를 초과할 수 없어요! (공백 포함)",
+    "chatting": "create.chatting"
   },
   "update": {
     "title": "**DiscLists.** - 채널 수정",

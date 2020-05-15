@@ -11,15 +11,18 @@ const creditsCmd = require('../commands/credits')
 
 const covidCmd = require('../extras/covid')
 
-const swap = require('../extras/swap')
-
 module.exports = async (msg) => {
   if (msg.author.bot || !msg.guild) return
 
-  swap(msg)
-
   if (!msg.content.startsWith(msg.client.settings.prefix)) return
-  if (msg.client.settings.devMode && !msg.member.roles.cache.has(msg.client.settings.adminRole)) return // Admin
+
+  if(msg.client.settings.devMode) {
+    let isAdmin = false
+    msg.member.roles.cache.forEach((role) => {
+      if(!isAdmin && msg.client.settings.adminRole.includes(role.id)) isAdmin = true
+    })
+    if (!isAdmin) return // Admin
+  }
 
   if (!msg.client.data.users[msg.guild.id]) msg.client.data.users[msg.guild.id] = {}
   if (!msg.client.data.users[msg.guild.id][msg.author.id]) msg.client.data.users[msg.guild.id][msg.author.id] = { quota: 2, channels: [] }
