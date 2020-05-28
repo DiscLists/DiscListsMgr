@@ -8,7 +8,7 @@ class BotClient extends Client {
     if (!settings.prefix) settings.prefix = '?'
     if (!settings.devMode) settings.devMode = false
     if (!settings.adminRole) settings.adminRole = []
-    if (!settings.news) settings.news = { enable: false, channel: "" }
+    if (!settings.news) settings.news = { enable: false, channel: '' }
     this.settings = settings
   }
 

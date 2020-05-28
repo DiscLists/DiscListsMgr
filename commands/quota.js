@@ -1,8 +1,8 @@
 module.exports = (msg, query, locale) => {
-  if(msg.client.settings.devMode) {
+  if (msg.client.settings.devMode) {
     let isAdmin = false
     msg.member.roles.cache.forEach((role) => {
-      if(!isAdmin && msg.client.settings.adminRole.includes(role.id)) isAdmin = true
+      if (!isAdmin && msg.client.settings.adminRole.includes(role.id)) isAdmin = true
     })
     if (!isAdmin) return // Admin
   }
