@@ -5,27 +5,27 @@ module.exports = async (msg, query, locale) => {
   const { guild, channel } = msg
   const user = msg.author
   const users = msg.client.data.users
-  const { t } = msg.client.locale
+  const { locale } = msg.client.locale
 
   const embed = new MessageEmbed().setThumbnail(guild.iconURL())
 
   // No channel 채널이 없음
   if (users[guild.id][user.id].channels.length < 1) {
     embed.setColor(0xff0000)
-      .setTitle(t('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
-      .setDescription(t('delete.noChannel:You don\'t have any channels.', locale))
+      .setTitle(locale('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
+      .setDescription(locale('delete.noChannel:You don\'locale have any channels.', locale))
 
     return channel.send(embed)
   }
   // Choose channel to delete 삭제할 채널 선택
   embed.setColor(0x000000)
-    .setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-    .setDescription(t('delete.desc:Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>', locale))
+    .setTitle(locale('delete.title:**DiscLists.** - Delete Channel', locale))
+    .setDescription(locale('delete.desc:Plz enter one of the channel No. below <:_stopwatch20:695945085950361621>', locale))
 
   users[guild.id][user.id].channels.forEach((v, i) => {
     i++
     const target = guild.channels.resolve(v.id)
-    if (!target) embed.addField(i + '. ~~' + v.name + '~~', t('delete.deleted:Deleted', locale))
+    if (!target) embed.addField(i + '. ~~' + v.name + '~~', locale('delete.deleted:Deleted', locale))
     else embed.addField(i + '. ' + v.name, '<#' + v.id + '>')
   })
 
@@ -43,8 +43,8 @@ module.exports = async (msg, query, locale) => {
       // If input is NaN 입력값이 숫자가 아닐 경우
       if (isNaN(m)) {
         embed.setColor(0xff0000)
-          .setTitle(t('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
-          .setDescription(t('delete.notNumber:%1$s is not a number', locale, c.first().content))
+          .setTitle(locale('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
+          .setDescription(locale('delete.notNumber:%1$s is not a number', locale, c.first().content))
 
         return msg.edit(embed)
       }
@@ -52,14 +52,14 @@ module.exports = async (msg, query, locale) => {
       // If the channel not exists 채널이 존재하지 않을 경우
       if (!users[guild.id][user.id].channels[m - 1]) {
         embed.setColor(0xff0000)
-          .setTitle(t('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
-          .setDescription(t('delete.notExist:Channel No.%1$s not exist', locale, c.first().content))
+          .setTitle(locale('delete.failed:**DiscLists.** - Delete Channel Failed', locale))
+          .setDescription(locale('delete.notExist:Channel No.%1$s not exist', locale, c.first().content))
 
         return msg.edit(embed)
       }
 
-      embed.setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-        .setDescription(t('delete.confirm:R U sure to want to **DELETE** %1$s? <:_stopwatch20:695945085950361621>', locale, '<#' + users[guild.id][user.id].channels[m - 1].id + '>'))
+      embed.setTitle(locale('delete.title:**DiscLists.** - Delete Channel', locale))
+        .setDescription(locale('delete.confirm:R U sure to want to **DELETE** %1$s? <:_stopwatch20:695945085950361621>', locale, '<#' + users[guild.id][user.id].channels[m - 1].id + '>'))
 
       msg.edit(embed)
       msg.react('✅')
@@ -72,8 +72,8 @@ module.exports = async (msg, query, locale) => {
           switch (c2.first().emoji.name) {
             case '✅': {
               const ch = guild.channels.resolve(users[guild.id][user.id].channels[m - 1].id)
-              embed.setTitle(t('delete.title:**DiscLists.** - Delete Channel', locale))
-                .setDescription(t('delete.channelDeleted:Deleted channel %1$s', locale, users[guild.id][user.id].channels[m - 1].name))
+              embed.setTitle(locale('delete.title:**DiscLists.** - Delete Channel', locale))
+                .setDescription(locale('delete.channelDeleted:Deleted channel %1$s', locale, users[guild.id][user.id].channels[m - 1].name))
               users[guild.id][user.id].channels.splice(m - 1, 1)
 
               if (ch) ch.delete()

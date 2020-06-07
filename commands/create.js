@@ -5,25 +5,25 @@ module.exports = async (msg, query, locale) => {
   const { guild, channel } = msg
   const user = msg.author
   const users = msg.client.data.users
-  const { t } = msg.client.locale
+  const { locale } = msg.clienlocals.locale
 
   const embed = new MsgEmbed(guild)
 
   if (users[guild.id][user.id].quota < 1) {
     embed.setError()
-      .setTitle(t('create.failed', locale))
-      .setDescription(t('create.quotaEmpty', locale))
+      .setTitle(locale('create.failed', locale))
+      .setDescription(locale('create.quotaEmpty', locale))
 
     return await channel.send(embed)
   }
 
-  embed.setTitle(t('create.title', locale))
-    .setDescription(t('create.desc', locale))
+  embed.setTitle(locale('create.title', locale))
+    .setDescription(locale('create.desc', locale))
     .addFields([
-      { name: '<:_bots:695946394715815976>', value: t('create.bot', locale), inline: true },
-      { name: '<:_server:695947468348719124>', value: t('create.server', locale), inline: true },
-      { name: '<:_personal:710867124188479608>', value: t('create.personal', locale), inline: true },
-      { name: '<:_broadcasting:695948961361559562>', value: t('create.streamer', locale), inline: true }
+      { name: '<:_bots:695946394715815976>', value: locale('create.bot', locale), inline: true },
+      { name: '<:_server:695947468348719124>', value: locale('create.server', locale), inline: true },
+      { name: '<:_personal:710867124188479608>', value: locale('create.personal', locale), inline: true },
+      { name: '<:_broadcasting:695948961361559562>', value: locale('create.streamer', locale), inline: true }
     ])
 
   // From here msg changes from user-msg to bot-msg
@@ -38,8 +38,8 @@ module.exports = async (msg, query, locale) => {
       if (timeUp(c, msg)) return
 
       // Receive channel name 채널 이름 확인
-      embed.setTitle(t('create.channelNameInput.title', locale, t(names[validReactions.indexOf(c.first().emoji.id)], locale)))
-        .setDescription(t('create.channelNameInput.desc', locale))
+      embed.setTitle(locale('create.channelNameInput.title', locale, locale(names[validReactions.indexOf(c.first().emoji.id)], locale)))
+        .setDescription(locale('create.channelNameInput.desc', locale))
       embed.fields = []
 
       msg.edit(embed)
@@ -54,14 +54,14 @@ module.exports = async (msg, query, locale) => {
 
           if (name.length > 20) {
             embed.setError()
-              .setTitle(t('create.failed', locale))
-              .setDescription(t('create.nameLimit', locale))
+              .setTitle(locale('create.failed', locale))
+              .setDescription(locale('create.nameLimit', locale))
 
             return msg.edit(embed)
           }
 
-          embed.setTitle(t('create.created.title', locale))
-            .setDescription(t('create.created.desc', locale, name, t(names[validReactions.indexOf(c.first().emoji.id)], locale)))
+          embed.setTitle(locale('create.created.title', locale))
+            .setDescription(locale('create.created.desc', locale, name, locale(names[validReactions.indexOf(c.first().emoji.id)], locale)))
 
           msg.edit(embed)
 
@@ -76,7 +76,7 @@ module.exports = async (msg, query, locale) => {
           ch.setTopic('You can set channel topic by using `?update`\n채널 주제 수정은 `?수정`으로 할 수 있어요!\n\n(Creator/생성한 사람: <@' + user.id + '>)')
           users[guild.id][user.id].quota -= 1
           users[guild.id][user.id].channels.push({ id: ch.id, name })
-          const m = await ch.send(t('create.herewego', locale, '<@' + user.id + '>'))
+          const m = await ch.send(locale('create.herewego', locale, '<@' + user.id + '>'))
           await m.delete({ timeout: 20000 })
         })
     })

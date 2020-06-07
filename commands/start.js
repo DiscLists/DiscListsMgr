@@ -12,19 +12,19 @@ module.exports = async (msg, query, locale) => {
   const { guild } = msg
   const { user } = msg.member
   const { users } = msg.client.data
-  const t = msg.client.locale.t
+  const locale = msg.client.locale.locale
 
   const embed = new MessageEmbed()
     .setColor(0x000000)
-    .setTitle(t('start.title:**DiscLists.** - List Manager', locale))
+    .setTitle(locale('start.title:**DiscLists.** - List Manager', locale))
     .setThumbnail(guild.iconURL())
-    .setDescription(t('start.desc:Requested by %1$s\nPlz choose one of the menu below <:_stopwatch20:695945085950361621>\n(Wait until all 5 emojis are reacted)', locale, '<@' + user.id + '>'))
+    .setDescription(locale('start.desc:Requested by %1$s\nPlz choose one of the menu below <:_stopwatch20:695945085950361621>\n(Wait until all 5 emojis are reacted)', locale, '<@' + user.id + '>'))
     .addFields([
-      { name: '<:_create:695920237530578974>', value: users[guild.id][user.id].channels.length > users[guild.id][user.id].quota ? '~~' + t('start.create:Create', locale) + '~~' : t('start.create:Create', locale), inline: true },
-      { name: '<:_update:695918214194003988>', value: users[guild.id][user.id].channels.length < 1 ? '~~' + t('start.update:Update', locale) + '~~' : t('start.update:Update', locale), inline: true },
-      { name: '<:_delete:695917878154887229>', value: users[guild.id][user.id].channels.length < 1 ? '~~' + t('start.delete:Delete', locale) + '~~' : t('start.delete:Delete', locale), inline: true },
-      { name: '<:_infos:695923641291898952>', value: t('start.userinfo:User Infos', locale), inline: true },
-      { name: '<:_credits:695925110179102751>', value: t('start.credits:Credits', locale), inline: true }
+      { name: '<:_create:695920237530578974>', value: users[guild.id][user.id].channels.length > users[guild.id][user.id].quota ? '~~' + locale('start.create:Create', locale) + '~~' : locale('start.create:Create', locale), inline: true },
+      { name: '<:_update:695918214194003988>', value: users[guild.id][user.id].channels.length < 1 ? '~~' + locale('start.update:Update', locale) + '~~' : locale('start.update:Update', locale), inline: true },
+      { name: '<:_delete:695917878154887229>', value: users[guild.id][user.id].channels.length < 1 ? '~~' + locale('start.delete:Delete', locale) + '~~' : locale('start.delete:Delete', locale), inline: true },
+      { name: '<:_infos:695923641291898952>', value: locale('start.userinfo:User Infos', locale), inline: true },
+      { name: '<:_credits:695925110179102751>', value: locale('start.credits:Credits', locale), inline: true }
     ])
 
   const m = await msg.channel.send(embed)
